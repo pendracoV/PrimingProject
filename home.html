@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div hidden>
+            <!-- Precargue de imagenes para aumentar performance -->
+            <img id="isla" src="assets/isla.png" />
+            <img id="pirata" src="assets/pirata-1.png" />
+            <img id="pirata2" src="assets/pirata-2.png" />
+            <img id="pirata3" src="assets/pirata-3.png" />
+        </div>
+
+        <div style="text-align: center;">
+
+            <label for="studentName"><b>Nombre:</b></label>
+            <input type="text" id="studentName" name="studentName">
+            
+            <label for="ages"><b>Edad:</b></label>
+            <select name="ages" id="ages">
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+            </select>
+
+            <label for="studentLevels"><b>Grado:</b></label>
+            <select name="studentLevels" id="studentLevels">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+
+            <label for="schoolName"><b>Colegio:</b></label>
+            <select name="schoolName" id="schoolName">
+                <option value="a">Colegio a</option>
+                <option value="b">Colegio b</option>
+                <option value="c">Colegio c</option>
+            </select>
+
+            <label for="schedule"><b>Jornada:</b></label>
+            <select name="schedule" id="schedule">
+                <option value="m">Mañana</option>
+                <option value="t">Tarde</option>
+            </select>
+
+            <button type="button" onclick="getUserData()">Guardar</button>
+
+            <br><br>
+            <canvas id="canvas" style="border:1px solid #d3d3d3;">
+                Tu navegador no soporta este video Juego. Deber actualizar el navegador o usar otro.
+            </canvas>
+        </div>
+
+        <script>
+            // Globales
+            const debugIsActive = false;
+            var studentName = "";
+            var age = "";
+            var studentLevel = "";
+            var schoolName = "";
+            var schedule = "";
+            var pathParams  = "";
+
+            // Configuracion del canvas
+            const draw = (canvas) => {
+                const ctx = canvas.getContext("2d");
+            }
+
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+            canvas.height = window.innerHeight
+            canvas.width = window.innerWidth
+
+            // Dibujos
+            function dibujarPaisaje(){
+                if (debugIsActive) { console.log('method: dibujarPaisaje()') }
+                var isla = document.getElementById("isla");
+                ctx.drawImage(isla, 0, 0, canvas.width, canvas.height);
+            }
+
+
+            function dibujarPirata(imagenPirata=''){
+                pirata = new Image()
+                pirata.onload = function() {
+                    const pirataX = canvas.getBoundingClientRect().width/2
+                    const pirataY = canvas.getBoundingClientRect().height/2
+                    ctx.drawImage(pirata, pirataX, pirataY);
+                }
+                pirata.src = imagenPirata
+            }
+
+            function dibujarIslaSinPirata() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                dibujarPaisaje();
+            }
+
+            function playSound(sound='') {
+                new Audio(sound).play();
+            }
+        
+
+            function moverPirata(){
+                if (debugIsActive) { console.log("moverPirata") }
+                dibujarIslaSinPirata()
+                var imagenesPirata = Array("pirata-1.png", "pirata-2.png", "pirata-3.png");
+                var pirataElegido = imagenesPirata[Math.floor(Math.random()*imagenesPirata.length)];
+                if (debugIsActive) { console.log("pirataElegido:", pirataElegido) }
+                dibujarPirata(imagenPirata='assets/'+pirataElegido)
+            }
+
+            function getValueOfInputtext(elementId) {
+                return document.getElementById(elementId).value;
+            }
+
+            function getValueOfList(elementId){
+                return document.getElementById(elementId).value;
+            }
+
+            function getUserData() {
+                studentName = getValueOfInputtext("studentName")
+                age = getValueOfList("ages")
+                studentLevel = getValueOfList("studentLevels")
+                schoolName = getValueOfList("schoolName")
+                schedule = getValueOfList("schedule")
+                pathParams = "?studentName="+studentName+"&age="+age+"&level="+studentLevel+"&school="+schoolName+"&schedule="+schedule;
+            }
+            
+            // Eventos de window
+            window.onload = function() {
+                dibujarPaisaje();
+                dibujarPirata(pirata="assets/pirata-1.png")
+                setInterval(moverPirata, 2000);
+            }
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth
+                canvas.height = window.innerHeight
+                draw(canvas)
+                dibujarPaisaje();
+                dibujarPirata(pirata="assets/pirata-1.png")
+            })
+
+            canvas.addEventListener("click", () => {
+                playSound(sound='assets/intro_sound.mp3')
+                setTimeout(function(){
+                    playSound(sound='assets/voz_pirata.mp3')
+                }, 2000);
+                setTimeout(function(){
+                    window.location.replace("entrenamiento1.html"+pathParams);
+                }, 40000);
+            });
+
+        </script>
+
+    </body>
+</html>

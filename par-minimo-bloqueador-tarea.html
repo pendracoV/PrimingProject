@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div hidden>
+            <!-- Precargue de imagenes para aumentar performance -->
+            <img id="paisaje" src="assets/playa.jpg" />
+            <img id="pirata" src="assets/pirata-1.png" />
+            <img id="pirata2" src="assets/pirata-2.png" />
+            <img id="pirata3" src="assets/pirata-3.png" />
+        </div>
+
+        <div style="text-align: center;">
+            <canvas id="canvas" style="border:1px solid #d3d3d3;">
+                Tu navegador no soporta este video Juego. Deber actualizar el navegador o usar otro.
+            </canvas>
+        </div>
+
+        <script>
+            // User Data
+            const debugIsActive = false;
+            var studentName = "";
+            var age = "";
+            var level = "";
+            var school= "";
+            var schedule = "";
+            var cognadoId = 0;
+
+            // Analiticas del juego
+            var cantidadErrores = 0;
+            var cantidadAciertos = 0;
+            var cantidadIntentos = 0;
+            var fechaInicio = '';
+            var fechaFin = '';
+ 
+            // Globales
+            var cognadoElegidoParaTarea = null;
+            var contadorClicksSobreBloqueador = 0;
+            var monedasGanadas = 200;
+            var ganoMonedas = false;
+            imagenProtectorDefault = 'assets/protector-solar.png';
+            const MAX_CANT_PROTECTORES_CORRECTOS = 8;
+            const MAX_CANT_PROTECTORES_INCORRECTOS = 8;
+            protectorSeleccionado = null;
+
+            var cognados = [
+            {
+                id: 1,
+                nombre: "BEE_PEA",
+                sonidoCorrecto: "assets/sonidos-cognados/1-BEE.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/1-PEA.mp3"
+            },
+            {
+                id: 2,
+                nombre: "BARK_PARK",
+                sonidoCorrecto: "assets/sonidos-cognados/2-BARK.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/2-PARK.mp3"
+            },
+            {
+                id: 3,
+                nombre: "PEN_TEN",
+                sonidoCorrecto: "assets/sonidos-cognados/3-PEN.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/3-TEN.mp3"
+            },
+            {
+                id: 4,
+                nombre: "DIG_PIG",
+                sonidoCorrecto: "assets/sonidos-cognados/4-DIG.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/4-PIG.mp3"
+            },
+            {
+                id: 5,
+                nombre: "BOY_TOY",
+                sonidoCorrecto: "assets/sonidos-cognados/5-BOY.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/5-TOY.mp3"
+            },
+            {
+                id: 6,
+                nombre: "BUY_TIE",
+                sonidoCorrecto: "assets/sonidos-cognados/6-BUY.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/6-TIE.mp3"
+            },
+            {
+                id: 7,
+                nombre: "BIN_TIN",
+                sonidoCorrecto: "assets/sonidos-cognados/7-BIN.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/7-TIN.mp3"
+            },
+            {
+                id: 8,
+                nombre: "BALL_TALL",
+                sonidoCorrecto: "assets/sonidos-cognados/8-BALL.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/8-TALL.mp3"
+            },
+            {
+                id: 9,
+                nombre: "BEEP_DEEP",
+                sonidoCorrecto: "assets/sonidos-cognados/9-BEEP.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/9-DEEP.mp3"
+            },
+            {
+                id: 10,
+                nombre: "BAG_GAG",
+                sonidoCorrecto: "assets/sonidos-cognados/10-BAG.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/10-GAG.mp3"
+            },
+            {
+                id: 11,
+                nombre: "BOLD_GOLD",
+                sonidoCorrecto: "assets/sonidos-cognados/11-BOLD.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/11-GOLD.mp3"
+            },
+            {
+                id: 12,
+                nombre: "BAN_VAN",
+                sonidoCorrecto: "assets/sonidos-cognados/12-BAN.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/12-VAN.mp3"
+            },
+            {
+                id: 13,
+                nombre: "BUN_SUN",
+                sonidoCorrecto: "assets/sonidos-cognados/13-BUN.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/13-SUN.mp3"
+            },
+            {
+                id: 14,
+                nombre: "BACK_SACK",
+                sonidoCorrecto: "assets/sonidos-cognados/14-BACK.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/14-SACK.mp3"
+            },
+            {
+                id: 15,
+                nombre: "DEAD_RED",
+                sonidoCorrecto: "assets/sonidos-cognados/15-DEAD.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/15-RED.mp3"
+            }
+            ];
+
+            // Configuracion del canvas
+            const draw = (canvas) => {
+                const ctx = canvas.getContext("2d");
+            }
+
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+            canvas.height = window.innerHeight
+            canvas.width = window.innerWidth
+
+            const monedasConfig = {
+                120: "assets/img-coins/120coins.png",
+                130: "assets/img-coins/130coins.png",
+                140: "assets/img-coins/140coins.png",
+                150: "assets/img-coins/150coins.png",
+                160: "assets/img-coins/160coins.png",
+                170: "assets/img-coins/170coins.png",
+                180: "assets/img-coins/180coins.png",
+                190: "assets/img-coins/190coins.png",
+                200: "assets/img-coins/200coins.png",
+                210: "assets/img-coins/210coins.png",
+                220: "assets/img-coins/220coins.png",
+                230: "assets/img-coins/230coins.png",
+                240: "assets/img-coins/240coins.png",
+                250: "assets/img-coins/250coins.png",
+                260: "assets/img-coins/260coins.png",
+                270: "assets/img-coins/270coins.png",
+                280: "assets/img-coins/280coins.png"
+            };
+
+            var protectores = [
+            {
+                id: 1,
+                x: canvas.getBoundingClientRect().width / 8 - 0,
+                y: canvas.getBoundingClientRect().height / 2 - 50,
+                img: imagenProtectorDefault,
+            },
+            { 
+                id: 2,
+                x: canvas.getBoundingClientRect().width / 4 + 0,
+                y: canvas.getBoundingClientRect().height / 2 - 50,
+                img: imagenProtectorDefault,
+                
+            },
+            { 
+                id: 3,
+                x: 3 * canvas.getBoundingClientRect().width / 8 + 0,
+                y: canvas.getBoundingClientRect().height / 2 - 50,
+                img: imagenProtectorDefault,
+            },
+            { 
+                id: 4,
+                x: canvas.getBoundingClientRect().width / 2 + 0,
+                y: canvas.getBoundingClientRect().height / 2 - 50,
+                img: imagenProtectorDefault,
+            },
+
+            { 
+                id: 5,
+                x: 5 * canvas.getBoundingClientRect().width / 8 + 0,
+                y: canvas.getBoundingClientRect().height / 2 - 50,
+                img: imagenProtectorDefault,
+            },
+            { 
+                id: 6,
+                x: 3 * canvas.getBoundingClientRect().width / 4 + 0,
+                y: canvas.getBoundingClientRect().height / 2 - 50,
+                img: imagenProtectorDefault,
+            },
+            { 
+                id: 7,
+                x: canvas.getBoundingClientRect().width - (canvas.getBoundingClientRect().width / 8) + 0,
+                y: canvas.getBoundingClientRect().height / 2 - 50,
+                img: imagenProtectorDefault,
+            },
+            // ---------
+            { 
+                id: 8,
+                x: 3 * canvas.getBoundingClientRect().width / 8 + 0,
+                y: canvas.getBoundingClientRect().height / 2 + 90,
+                img: imagenProtectorDefault,
+            },
+            { 
+                id: 9,
+                x: 5 * canvas.getBoundingClientRect().width / 8 + 0,
+                y: canvas.getBoundingClientRect().height / 2 + 90,
+                img: imagenProtectorDefault,
+            },
+            // ---------
+            { 
+                id: 10,
+                x: canvas.getBoundingClientRect().width / 8 + 0,
+                y: canvas.getBoundingClientRect().height / 2 + 230,
+                img: imagenProtectorDefault,
+                
+            },
+            { 
+                id: 11,
+                x: canvas.getBoundingClientRect().width / 4 + 0,
+                y: canvas.getBoundingClientRect().height / 2 + 230,
+                img: imagenProtectorDefault,
+                
+            },
+            { 
+                id: 12,
+                x: 3 * canvas.getBoundingClientRect().width / 8 + 0,
+                y: canvas.getBoundingClientRect().height / 2 + 230,
+                img: imagenProtectorDefault,
+            },
+            { 
+                id: 13,
+                x: canvas.getBoundingClientRect().width / 2 + 0,
+                y: canvas.getBoundingClientRect().height / 2 + 230,
+                img: imagenProtectorDefault,
+            },
+
+            { 
+                id: 14,
+                x: 5 * canvas.getBoundingClientRect().width / 8 + 0,
+                y: canvas.getBoundingClientRect().height / 2 + 230,
+                img: imagenProtectorDefault,
+            },
+            { 
+                id: 15,
+                x: 3 * canvas.getBoundingClientRect().width / 4 + 0,
+                y: canvas.getBoundingClientRect().height / 2 + 230,
+                img: imagenProtectorDefault,
+            },
+            { 
+                id: 16,
+                x: canvas.getBoundingClientRect().width - (canvas.getBoundingClientRect().width / 8) + 0,
+                y: canvas.getBoundingClientRect().height / 2 + 230,
+                img: imagenProtectorDefault,
+            },
+        ];
+
+            // Dibujos
+            function dibujarPaisaje(){
+                if (debugIsActive) { console.log('method: dibujarPaisaje()') }
+                var isla = document.getElementById("paisaje");
+                ctx.drawImage(isla, 0, 0, canvas.width, canvas.height);
+            }
+
+            function playSound(sound='') {
+                new Audio(sound).play();
+            }
+
+            function dibujarPirata(imagenPirata=''){
+                pirata = new Image()
+                pirata.onload = function() {
+                    const pirataX = canvas.getBoundingClientRect().width / 2;
+                    const pirataY = canvas.getBoundingClientRect().height * 5 / 100;
+                    ctx.drawImage(pirata, pirataX, pirataY);
+                }
+                pirata.src = imagenPirata
+            }
+
+            function dibujarIslaSinPirata() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                dibujarPaisaje();
+                dibujarMonedero();
+                dibujarProtectoresCompletos();
+            }
+
+            function clearCanvasSinProtectores() {
+                if (debugIsActive) { console.log('method: clearCanvasSinProtectores()') }
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                dibujarPaisaje();
+                dibujarPirata(pirata="assets/pirata-1.png")
+                dibujarMonedero()
+            }
+
+            function dibujarProtectores() {
+                for (let i = 0; i < protectores.length; i++) {
+                    protector = protectores[i];
+                    protector.esCorrecto = obtenerFlagProtectorCorreto();
+                    if (protector.esCorrecto) {
+                        protector.sonido = cognadoElegidoParaTarea.sonidoCorrecto;
+                    } else {
+                        protector.sonido = cognadoElegidoParaTarea.sonidoIncorrecto;
+                    }
+                    dibujarUnProtector(protector)
+                }
+            }
+
+            function dibujarProtectoresCompletos() {
+                for (let i = 0; i < protectores.length; i++) {
+                    protector = protectores[i];
+                    dibujarUnProtector(protector)
+                }
+            }
+
+            var contadorProtectoresCorrectos = 1;
+            var contadorProtectoresIncorrectos = 1;
+            function obtenerFlagProtectorCorreto() {
+                const cognado = cognados[cognadoId];
+                opciones = [0, 1];
+                random = Math.floor(Math.random()*opciones.length)
+                // 0 es correcto
+                // 1 incorrecto
+                opcion = opciones[random];
+                if (opcion === 0){
+                    if (contadorProtectoresCorrectos <= MAX_CANT_PROTECTORES_CORRECTOS) {
+                        contadorProtectoresCorrectos += 1;
+                        return true;
+                    }
+                    if (contadorProtectoresIncorrectos <= MAX_CANT_PROTECTORES_INCORRECTOS) {
+                        contadorProtectoresIncorrectos += 1;
+                        return false;
+                    }
+                }
+
+                if (opcion === 1){
+                    if (contadorProtectoresIncorrectos <= MAX_CANT_PROTECTORES_INCORRECTOS) {
+                        contadorProtectoresIncorrectos += 1;
+                        return false;
+                    }
+                    if (contadorProtectoresCorrectos <= MAX_CANT_PROTECTORES_CORRECTOS) {
+                        contadorProtectoresCorrectos += 1;
+                        return true;
+                    }
+                }
+            }
+
+            function dibujarUnProtector(protector){
+                if (debugIsActive) { console.log(protector); }
+                protectorImg = new Image();
+                protectorImg.onload = function() {
+                        const protectorX = protector.x;
+                        const protectorY = protector.y;
+                        ctx.drawImage(protectorImg, protectorX, protectorY);
+                };
+                protectorImg.src = protector.img;
+            }
+
+            function onCanvasClick(e){
+                manageIfWasClickOnBloqueador(e.clientX, e.clientY);
+                manageIfWasClickOnPirata(e.clientX, e.clientY);
+                if (cantidadAciertos >= 6) {
+                    fechaFin = getCompleteDate()
+                    setTimeout(function(){
+                        window.location.replace("par-minimo-calamar-entrenamiento.html"+buildPathParams());
+                    }, 2000);
+                }
+                if (cantidadErrores >= 6) {
+                    alert("PERDISTE, ENTRENA MAS!")
+                    setTimeout(function(){
+                        window.location.replace("entrenamiento2.html"+buildPathParams());
+                    }, 2000);
+                } 
+            }
+
+            function manageIfWasClickOnBloqueador(clickX, clickY) {
+                for (let i = 0; i < protectores.length; i++) {
+                    protector = protectores[i];
+                    wasClick = clickOnBloqueador(clickX, clickY, protector.x, protector.y);
+                    if (wasClick){
+                        protectorSeleccionado = protector;
+                        playSound(protectorSeleccionado.sonido);
+                        break;
+                    }
+                }
+            }
+
+            function manageIfWasClickOnPirata(clickX, clickY) {
+                if(clickOnPirata(clickX, clickY)) {
+                    if (!protectorSeleccionado){
+                        playSound(cognadoElegidoParaTarea.sonidoCorrecto);
+                        setTimeout(function(){}, 2000);
+                    }
+
+                    if (protectorSeleccionado) {
+                        if (protectorSeleccionado.esCorrecto) {
+                            monedasGanadas = monedasGanadas + 10;
+                            ganoMonedas = true;
+                            cantidadAciertos += 1;
+                            dibujarCoins();
+                            setTimeout(function(){}, 2000);
+                            eliminarProtectorPorId(protectorSeleccionado.id)
+                            clearCanvasSinProtectores();
+                            dibujarProtectoresCompletos();
+                            setTimeout(function(){}, 2000);
+                            playSound("assets/sonidos-pirata/pirata-dice-muy-bien.mp3");
+                        }else {
+                            monedasGanadas = monedasGanadas - 10;
+                            ganoMonedas = false;
+                            cantidadErrores += 1;
+                            dibujarCoins();
+                            setTimeout(function(){}, 2000);
+                            playSound("assets/sonidos-pirata/pirata-dice-ten-cuidado.mp3");
+                        }
+                        protectorSeleccionado = null;
+                    }
+                }
+
+
+            }
+
+            function eliminarProtectorPorId(id){
+                console.log(id)
+                protectores = protectores.filter(p => p.id != id);
+            }
+
+            function clickOnBloqueador(clickX, clickY, protectorX, protectorY) {
+                return clickX > protectorX - (protectorX*30/100) && clickX < protectorX + (protectorX*30/100)  
+                    && clickY > protectorY - (protectorY*5/100)  && clickY < protectorY + (protectorY*30/100)
+            }
+
+            function clickOnPirata(x, y) {
+                const pirataX = canvas.getBoundingClientRect().width / 2;
+                const pirataY = canvas.getBoundingClientRect().height * 5 / 100;
+                console.log(pirataX, pirataY, x, y);
+                const respuesta = pirataX < x + 150 && pirataX > x - 150
+                && pirataY < y + 150 && pirataY > y - 150
+                return respuesta;
+            }
+
+            function cargarCognadoParaTarea(){
+                for (let i = 0; i < cognados.length; i++) {
+                    cognado = cognados[i];
+                    if (cognado.id == cognadoId) {
+                        cognadoElegidoParaTarea = cognado;
+                        break;
+                    }
+                }
+            }
+
+            function onWonCoins() {
+                if (debugIsActive) { console.log('method: onWonCoins()') }
+                playSound("assets/coins.mp3")
+            }
+
+            function dibujarCoins(){
+                if (debugIsActive) { console.log('method: dibujarCoins()') }
+                onWonCoins()
+                coin = new Image();
+                coin.onload = function() {
+                    ctx.drawImage(coin, canvas.getBoundingClientRect().width - 200, 50);
+                };
+                imagen_moneda = '';
+                if (ganoMonedas) {
+                    imagen_moneda = 'assets/coins+10.png';
+                } else {
+                    imagen_moneda = 'assets/coins-10.png';
+                }
+                coin.src = imagen_moneda;
+            }
+
+            function dibujarMonedero(){
+                if (debugIsActive) { console.log("dibujarMonedero)"); }
+                monedas = new Image();
+                monedas.onload = function() {
+                        ctx.drawImage(
+                            monedas,
+                            canvas.getBoundingClientRect().width - 100,
+                            canvas.getBoundingClientRect().height * 1/100,
+                            );
+                };
+                monedas.src = monedasConfig[monedasGanadas];
+            }
+
+            function moverPirata(){
+                if (debugIsActive) { console.log("moverPirata") }
+                dibujarIslaSinPirata()
+                var imagenesPirata = Array("pirata-1.png", "pirata-2.png", "pirata-3.png");
+                var pirataElegido = imagenesPirata[Math.floor(Math.random()*imagenesPirata.length)];
+                if (debugIsActive) { console.log("pirataElegido:", pirataElegido) }
+                dibujarPirata(imagenPirata='assets/'+pirataElegido)
+            }
+
+            function buildPathParams(){
+                return "?studentName="+studentName
+                      +"&age="+age
+                      +"&level="+level
+                      +"&school="+school
+                      +"&schedule="+schedule;
+            }
+            
+            function getURLParameter(sParam){
+                var sPageURL = window.location.search.substring(1);
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++) {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] == sParam) {
+                        return sParameterName[1];
+                    }
+                }
+            }
+
+            function readAndLoadUserDataFromUrl() {
+                studentName = getURLParameter('studentName');
+                age = getURLParameter('age');
+                level = getURLParameter('level');
+                school = getURLParameter('school');
+                schedule = getURLParameter('schedule');
+                cognadoId = getURLParameter('cognadoId');
+            }
+
+            function getCompleteDate(){
+                const currentdate = new Date();
+                return currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + "|"  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+            }
+
+            // Eventos de window
+            window.onload = function() {
+                fechaInicio = getCompleteDate();
+                readAndLoadUserDataFromUrl();
+                cargarCognadoParaTarea();
+                dibujarPaisaje();
+                dibujarPirata(pirata="assets/pirata-1.png")
+                dibujarMonedero();
+                dibujarProtectores();
+                setInterval(moverPirata, 2000);
+            }
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth
+                canvas.height = window.innerHeight
+                draw(canvas)
+                dibujarPaisaje();
+                dibujarPirata(pirata="assets/pirata-1.png")
+            })
+
+            canvas.addEventListener("click", onCanvasClick);
+
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div hidden>
+            <!-- Precargue de imagenes para aumentar performance -->
+            <img id="lago" src="assets/lagov3.png" />
+        </div>
+
+        <div style="text-align: center;">
+            <canvas id="canvas" style="border:1px solid #d3d3d3;">
+                Tu navegador no soporta este video Juego. Deber actualizar el navegador o usar otro.
+            </canvas>
+        </div>
+
+        <script>
+            // User Data
+            var studentName = "";
+            var age = "";
+            var level = "";
+            var school = "";
+            var schedule = "";
+
+            // Globales
+            const debugIsActive =  false;
+            var cocodriloTieneBocaAbierta = false;
+            var direccion_nado_pez_inicial = 1;
+            const INCREMENTO_NADO_PEZ = 0;// 70;
+            const MAX_CANT_PECES_SANOS = 8;
+            const MAX_CANT_PECES_ENFERMOS = 8;
+            var pescadoSeleccionado = null;
+            var cognadoSeleccionado = null;
+            var monedasGanadas = 200;
+            var ganoMonedas = false;
+
+            // Analiticas del juego
+            var cantidadErrores = 0;
+            var cantidadAciertos = 0;
+            var fechaInicio = '';
+            var fechaFin = '';
+            
+            cocodrilo = new Image();
+
+            // Configuracion del canvas
+            const draw = (canvas) => {
+                const ctx = canvas.getContext("2d");
+            }
+
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+            canvas.height = window.innerHeight
+            canvas.width = window.innerWidth
+            imagenPescadoDefault = 'assets/pez_nadando_derecha.png';
+            saludDefault = "na"
+            
+
+            var cognados = [
+                {
+                    id: 1,
+                    nombre: "BEE_PEA",
+                    sonidoCorrecto: "assets/sonidos-cognados/1-BEE.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/1-PEA.mp3"
+                },
+                {
+                    id: 2,
+                    nombre: "BARK_PARK",
+                    sonidoCorrecto: "assets/sonidos-cognados/2-BARK.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/2-PARK.mp3"
+                },
+                {
+                    id: 3,
+                    nombre: "PEN_TEN",
+                    sonidoCorrecto: "assets/sonidos-cognados/3-PEN.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/3-TEN.mp3"
+                },
+                {
+                    id: 4,
+                    nombre: "DIG_PIG",
+                    sonidoCorrecto: "assets/sonidos-cognados/4-DIG.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/4-PIG.mp3"
+                },
+                {
+                    id: 5,
+                    nombre: "BOY_TOY",
+                    sonidoCorrecto: "assets/sonidos-cognados/5-BOY.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/5-TOY.mp3"
+                },
+                {
+                    id: 6,
+                    nombre: "BUY_TIE",
+                    sonidoCorrecto: "assets/sonidos-cognados/6-BUY.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/6-TIE.mp3"
+                },
+                {
+                    id: 7,
+                    nombre: "BIN_TIN",
+                    sonidoCorrecto: "assets/sonidos-cognados/7-BIN.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/7-TIN.mp3"
+                },
+                {
+                    id: 8,
+                    nombre: "BALL_TALL",
+                    sonidoCorrecto: "assets/sonidos-cognados/8-BALL.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/8-TALL.mp3"
+                },
+                {
+                    id: 9,
+                    nombre: "BEEP_DEEP",
+                    sonidoCorrecto: "assets/sonidos-cognados/9-BEEP.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/9-DEEP.mp3"
+                },
+                {
+                    id: 10,
+                    nombre: "BAG_GAG",
+                    sonidoCorrecto: "assets/sonidos-cognados/10-BAG.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/10-GAG.mp3"
+                },
+                {
+                    id: 11,
+                    nombre: "BOLD_GOLD",
+                    sonidoCorrecto: "assets/sonidos-cognados/11-BOLD.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/11-GOLD.mp3"
+                },
+                {
+                    id: 12,
+                    nombre: "BAN_VAN",
+                    sonidoCorrecto: "assets/sonidos-cognados/12-BAN.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/12-VAN.mp3"
+                },
+                {
+                    id: 13,
+                    nombre: "BUN_SUN",
+                    sonidoCorrecto: "assets/sonidos-cognados/13-BUN.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/13-SUN.mp3"
+                },
+                {
+                    id: 14,
+                    nombre: "BACK_SACK",
+                    sonidoCorrecto: "assets/sonidos-cognados/14-BACK.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/14-SACK.mp3"
+                },
+                {
+                    id: 15,
+                    nombre: "DEAD_RED",
+                    sonidoCorrecto: "assets/sonidos-cognados/15-DEAD.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/15-RED.mp3"
+                }
+            ];
+
+            var peces = [
+                    { 
+                        x: canvas.getBoundingClientRect().width / 8 + 0,
+                        y: canvas.getBoundingClientRect().height / 2,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    { 
+                        x: canvas.getBoundingClientRect().width / 4 + 0,
+                        y: canvas.getBoundingClientRect().height / 2,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    { 
+                        x: 3 * canvas.getBoundingClientRect().width / 8 + 0,
+                        y: canvas.getBoundingClientRect().height / 2,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    { 
+                        x: canvas.getBoundingClientRect().width / 2 + 0,
+                        y: canvas.getBoundingClientRect().height / 2,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+
+                    { 
+                        x: 5 * canvas.getBoundingClientRect().width / 8 + 0,
+                        y: canvas.getBoundingClientRect().height / 2,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    { 
+                        x: 3 * canvas.getBoundingClientRect().width / 4 + 0,
+                        y: canvas.getBoundingClientRect().height / 2,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    { 
+                        x: canvas.getBoundingClientRect().width - (canvas.getBoundingClientRect().width / 8) + 0,
+                        y: canvas.getBoundingClientRect().height / 2,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    // ---------
+                    { 
+                        x: 3 * canvas.getBoundingClientRect().width / 8 + 0,
+                        y: canvas.getBoundingClientRect().height / 2 + 100,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    { 
+                        x: 5 * canvas.getBoundingClientRect().width / 8 + 0,
+                        y: canvas.getBoundingClientRect().height / 2 + 100,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    // ---------
+                    { 
+                        x: canvas.getBoundingClientRect().width / 8 + 0,
+                        y: canvas.getBoundingClientRect().height / 2 + 200,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    { 
+                        x: canvas.getBoundingClientRect().width / 4 + 0,
+                        y: canvas.getBoundingClientRect().height / 2 + 200,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    { 
+                        x: 3 * canvas.getBoundingClientRect().width / 8 + 0,
+                        y: canvas.getBoundingClientRect().height / 2 + 200,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    { 
+                        x: canvas.getBoundingClientRect().width / 2 + 0,
+                        y: canvas.getBoundingClientRect().height / 2 + 200,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+
+                    { 
+                        x: 5 * canvas.getBoundingClientRect().width / 8 + 0,
+                        y: canvas.getBoundingClientRect().height / 2 + 200,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    { 
+                        x: 3 * canvas.getBoundingClientRect().width / 4 + 0,
+                        y: canvas.getBoundingClientRect().height / 2 + 200,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                    { 
+                        x: canvas.getBoundingClientRect().width - (canvas.getBoundingClientRect().width / 8) + 0,
+                        y: canvas.getBoundingClientRect().height / 2 + 200,
+                        img: imagenPescadoDefault,
+                        salud: saludDefault
+                    },
+                ];
+
+            const monedasConfig = {
+                120: "assets/img-coins/120coins.png",
+                130: "assets/img-coins/130coins.png",
+                140: "assets/img-coins/140coins.png",
+                150: "assets/img-coins/150coins.png",
+                160: "assets/img-coins/160coins.png",
+                170: "assets/img-coins/170coins.png",
+                180: "assets/img-coins/180coins.png",
+                190: "assets/img-coins/190coins.png",
+                200: "assets/img-coins/200coins.png",
+                210: "assets/img-coins/210coins.png",
+                220: "assets/img-coins/220coins.png",
+                230: "assets/img-coins/230coins.png",
+                240: "assets/img-coins/240coins.png",
+                250: "assets/img-coins/250coins.png",
+                260: "assets/img-coins/260coins.png",
+                270: "assets/img-coins/270coins.png",
+                280: "assets/img-coins/280coins.png"
+            };
+
+            // asignar salud a los peces
+            function asignarSaludYSonidoPescados(){
+                random = Math.floor(Math.random() * cognados.length)
+                cognadoSeleccionado = cognados[random]
+                for (let i = 0; i < peces.length; i++) {
+                    pescado = peces[i];
+                    pescado.salud = obtenerSaludDelPescado()
+                    if (pescado.salud == "sano") {
+                        pescado.sonido = cognadoSeleccionado.sonidoCorrecto;
+                    } else {
+                        pescado.sonido = cognadoSeleccionado.sonidoIncorrecto;
+                    }
+                }
+            }
+
+            function asignarIdsPescados(){
+                for (let i = 0; i < peces.length; i++) {
+                    peces[i].id = i + 1
+                }
+            }
+
+            function eliminarPescadoPorId(id){
+                peces = peces.filter(pez => pez.id != id);
+            }
+
+            // Dibujos
+            function dibujarPaisaje(){
+                if (debugIsActive) { console.log('method: dibujarPaisaje()') }
+                var isla = document.getElementById("lago");
+                ctx.drawImage(isla, 0, 0, canvas.width, canvas.height);
+            }
+
+            function dibujarPeces(imagenPescado='', incremento=0){
+                if (debugIsActive) { console.log('method: dibujarPeces()') }
+                for (let i = 0; i < peces.length; i++) {
+                    pescado = peces[i];
+                    pescado.img = imagenPescado;
+                    dibujarUnPez(pescado)
+                }
+            }
+
+            function dibujarMonedero(){
+                if (debugIsActive) { console.log("dibujarMonedasInciales)"); }
+                monedas = new Image();
+                monedas.onload = function() {
+                        ctx.drawImage(
+                            monedas,
+                            canvas.getBoundingClientRect().width - 100,
+                            canvas.getBoundingClientRect().height * 1/100,
+                            );
+                };
+                monedas.src = monedasConfig[monedasGanadas];
+            }
+
+
+            function dibujarUnPez(pescado){
+                if (debugIsActive) { console.log(pescado); }
+                pez = new Image();
+                pez.onload = function() {
+                        const pescadoX = pescado.x;
+                        const pescadoY = pescado.y;
+                        ctx.drawImage(pez, pescadoX, pescadoY);
+                };
+                pez.src = pescado.img;
+            }
+
+            function dibujarCocodrilo(){
+                if (debugIsActive) { console.log('method: dibujarCocodrilo()') }
+                //cocodrilo = new Image();
+                cocodrilo.onload = function() {
+                    const canvasW = canvas.getBoundingClientRect().width;
+                    const canvasH = canvas.getBoundingClientRect().height;
+                    ctx.drawImage(cocodrilo, canvas.width/2, canvas.height/4);
+                };
+                cocodriloImage = '';
+                if (cocodriloTieneBocaAbierta) {
+                    cocodriloImage = 'assets/crocodile_boca_abierta.png';
+                } else {
+                    cocodriloImage = 'assets/crocodile.png';
+                }
+                cocodrilo.src = cocodriloImage;
+            }
+
+            function debeCambiarDireccionDeNado(){
+                if (debugIsActive) { console.log('method: debeCambiarDireccionDeNado()') }
+                const direccion_nado = Math.floor(Math.random() * 2); // 1 derecha, 0 izquierda
+                if (debugIsActive) { console.log("direccion nado: ",direccion_nado) }
+                return direccion_nado_pez_inicial != direccion_nado
+            }
+
+            function nadar() {
+                var incremento = 0;
+                if (debeCambiarDireccionDeNado()) {
+                    clearCanvasSinPescado()
+                    if (this.direccion_nado_pez_inicial === 1) {
+                        this.direccion_nado_pez_inicial = 0
+                        nuevo_incremento = incremento + INCREMENTO_NADO_PEZ
+                        dibujarPeces(imagenPescado='assets/pez_nadando_derecha.png', incremento=nuevo_incremento)    
+                    } else {
+                        this.direccion_nado_pez_inicial = 1
+                        nuevo_incremento = incremento - INCREMENTO_NADO_PEZ
+                        dibujarPeces(imagenPescado='assets/pez_nadando_izquierda.png', incremento=nuevo_incremento)  
+                    }
+                }
+            }
+
+            function clearCanvasSinPescado() {
+                if (debugIsActive) { console.log('method: clearCanvasSinPescado()') }
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                dibujarPaisaje();
+                dibujarCocodrilo()
+                dibujarMonedero()
+            }
+
+            var contadorPescadosSanos = 1;
+            var contadorPescadosEnfermos = 1;
+            function obtenerSaludDelPescado() {
+                if (debugIsActive) { 
+                    console.log("contadorPescadosSanos:", contadorPescadosSanos)
+                    console.log("contadorPescadosEnfermos:", contadorPescadosEnfermos)
+                }
+                const opciones = ["sano", "enfermo"];
+                random = Math.floor(Math.random()*opciones.length)
+                // 0 sano
+                // 1 enfermo
+                opcion = opciones[random]
+                if (opcion == "sano"){
+                    if (contadorPescadosSanos <= MAX_CANT_PECES_SANOS) {
+                        contadorPescadosSanos += 1;
+                        return "sano"
+                    }
+                    if (contadorPescadosEnfermos <= MAX_CANT_PECES_ENFERMOS) {
+                        contadorPescadosEnfermos += 1;
+                        return "enfermo";
+                    }
+                }
+
+                if (opcion == "enfermo"){
+                    if (contadorPescadosEnfermos <= MAX_CANT_PECES_ENFERMOS) {
+                        contadorPescadosEnfermos += 1;
+                        return "enfermo";
+                    }
+                    if (contadorPescadosSanos <= MAX_CANT_PECES_SANOS) {
+                        contadorPescadosSanos += 1;
+                        return "sano"
+                    }
+                }
+            }
+
+            function onCanvasClick(e){
+                manageIfClickOnFish(e.clientX, e.clientY);
+                manageIfClickOnCrocodile(e.clientX, e.clientY)
+                if (cantidadAciertos >= 6) {
+                    fechaFin = getCompleteDate();
+                    setTimeout(function(){
+                        window.location.replace("entrenamiento2.html"+buildPathParams());
+                    }, 2000);
+                }
+                if (cantidadErrores >= 6) {
+                    alert("PERDISTE, ENTRENA MAS!");
+                    fechaFin = getCompleteDate();
+                    setTimeout(function(){
+                        window.location.replace("entrenamiento1.html"+buildPathParams());
+                    }, 2000);
+                }
+            }
+           
+            function manageIfClickOnFish(clickX, clickY) {
+                if (debugIsActive) { console.log('method: manageIfClickOnFish()') }
+                // Recorrer peces
+                for (let i = 0; i < peces.length; i++) {
+                    pescado = peces[i];
+                    if (clickOnFish(clickX, clickY, pescado.x, pescado.y)){
+                        pescadoSeleccionado = pescado;
+                        playSound(pescadoSeleccionado.sonido);
+                        break;
+                    }
+                }
+            }
+
+            function manageIfClickOnCrocodile(clickX, clickY) {
+                if (clickOnCocodrilo(canvas.width/2, canvas.height/3, clickX, clickY)) {
+                    if (!pescadoSeleccionado) {
+                        playSound(cognadoSeleccionado.sonidoCorrecto)
+                        setTimeout(function(){}, 2000);
+                    }
+                    
+                    if (pescadoSeleccionado) {
+                        cocodrilo.src = '';
+                        if (pescadoSeleccionado.salud == "sano"){
+                            cocodriloTieneBocaAbierta = true;
+                            // coco feliz
+                            monedasGanadas = monedasGanadas + 10;
+                            ganoMonedas = true;
+                            cantidadAciertos += 1;
+
+
+                            cocodrilo.src = 'assets/crocodile_boca_abierta.png';
+                            
+                            playSound('assets/sonido_cocodrilo_feliz.mp3')
+                            
+                            setTimeout(function(){
+                                cocodriloTieneBocaAbierta = false;
+                                cocodrilo.src = 'assets/crocodile.png';
+                            }, 2000);
+
+                            dibujarCoins()
+                            setTimeout(function(){}, 2000);
+                            
+                            eliminarPescadoPorId(pescadoSeleccionado.id)
+                            clearCanvasSinPescado()
+                            dibujarPeces()
+                        } else {
+                            // coco bravo
+                            monedasGanadas = monedasGanadas - 10;
+                            ganoMonedas = false;
+                            cantidadErrores += 1;
+
+                            cocodrilo.src = 'assets/crocodile_bravo.png';
+                            playSound('assets/sonido_cocodrilo_bravo.mp3')
+                            
+                            setTimeout(function(){
+                                cocodriloTieneBocaAbierta = false;
+                                cocodrilo.src = 'assets/crocodile.png';
+                            }, 2000);
+
+                            dibujarCoins()
+                            setTimeout(function(){}, 2000);
+                        }
+                        pescadoSeleccionado = null;
+                    }
+                }
+            }
+
+            function playSound(audioPath) {
+                if (debugIsActive) { console.log('method: playSound()') }
+                new Audio(audioPath).play();
+            }
+
+            function onWonCoins() {
+                if (debugIsActive) { console.log('method: onWonCoins()') }
+                playSound("assets/coins.mp3")
+            }
+        
+            function dibujarCoins(){
+                if (debugIsActive) { console.log('method: dibujarCoins()') }
+                onWonCoins()
+                coin = new Image();
+                coin.onload = function() {
+                    ctx.drawImage(coin, canvas.getBoundingClientRect().width / 2, 50);
+                };
+                imagen_moneda = '';
+                if (ganoMonedas) {
+                    imagen_moneda = 'assets/coins+10.png';
+                } else {
+                    imagen_moneda = 'assets/coins-10.png';
+                }
+                coin.src = imagen_moneda;
+            }
+
+            function clickOnFish(clickX, clickY, x, y){
+                return clickX > x - 50 && clickX < x + 50 
+                    && clickY > y - 50 && clickY < y + 50
+                    && clickY > canvas.height / 2
+            }
+
+            function clickOnCocodrilo(cocodrilox, cocodriloy, x, y) {
+                const respuesta = cocodrilox < x + 75 && cocodrilox > x - 75
+                && cocodriloy < y + 80 && cocodriloy > y - 80
+                var mensaje = "Cocodrilo=>("+cocodrilox+","+cocodriloy+"), Click=>("+x+","+y+"), R=>["+respuesta+"]";
+                if (debugIsActive) { console.log('method: clickOnCocodrilo() => ' + mensaje) }
+                return respuesta;
+            }
+
+            function clearCanvasSinCocodrilo() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                dibujarPaisaje();
+                dibujarPeces();
+                dibujarMonedero()
+            }
+
+            function clearCanvas() {
+                if (debugIsActive) { console.log('method: clearCanvas()') }
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                dibujarPaisaje();
+                dibujarPeces(imagenPescado='assets/pez_nadando_derecha.png')
+                dibujarCocodrilo();
+                dibujarMonedero()
+            }
+
+
+            function getCompleteDate(){
+                return new Date();
+            }
+
+            function end() {
+                endTime = new Date();
+                var timeDiff = fechaFin - fechaInicio; //in ms
+                // strip the ms
+                timeDiff /= 1000;
+                // get seconds 
+                return Math.round(timeDiff);
+            }
+
+            function sendAnalytics(){
+                if(debugIsActive) { console.log("sendAnalytics()"); } 
+                const data = {
+                    'student_name': studentName,
+                    'age': age,
+                    'level': level,
+                    'school': school,
+                    'schedule': schedule,
+                    'cantidad_errores': cantidadErrores,
+                    'cantidad_aciertos': cantidadAciertos,
+                    'fecha_inicio': fechaInicio,
+                    'fecha_fin': fecha_fin,
+                    'voice_genre': 'F',
+                    'cognado': cognadoSeleccionado.nombre
+                };
+                if(debugIsActive) { console.log(data); }
+
+            }
+
+            canvas.addEventListener("click", onCanvasClick);
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth
+                canvas.height = window.innerHeight
+                draw(canvas)
+            })
+
+            function buildPathParams(){
+                return "?studentName="+studentName+"&age="+age+"&level="+level+"&school="+school+"&schedule="+schedule;
+            }
+
+            function getURLParameter(sParam){
+                var sPageURL = window.location.search.substring(1);
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++) {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] == sParam) {
+                        return sParameterName[1];
+                    }
+                }
+            }
+        
+            function readAndLoadUserDataFromUrl() {
+                studentName = getURLParameter('studentName');
+                age = getURLParameter('age');
+                level = getURLParameter('level');
+                school = getURLParameter('school');
+                schedule = getURLParameter('schedule');
+            }
+
+            window.onload = function() {
+                fechaInicio = getCompleteDate()
+                readAndLoadUserDataFromUrl()
+                dibujarPaisaje();
+                dibujarPeces(imagenPescado='assets/pez_nadando_derecha.png')
+                dibujarCocodrilo()
+                asignarSaludYSonidoPescados()
+                asignarIdsPescados()
+                dibujarMonedero()
+                var intervaloNadoPez = setInterval(nadar, 1000);
+            }
+
+        </script>
+
+    </body>
+</html>

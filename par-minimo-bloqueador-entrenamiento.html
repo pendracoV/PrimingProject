@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div hidden>
+            <!-- Precargue de imagenes para aumentar performance -->
+            <img id="paisaje" src="assets/playa.jpg" />
+            <img id="pirata" src="assets/pirata-1.png" />
+            <img id="pirata2" src="assets/pirata-2.png" />
+            <img id="pirata3" src="assets/pirata-3.png" />
+        </div>
+
+        <div style="text-align: center;">
+            <canvas id="canvas" style="border:1px solid #d3d3d3;">
+                Tu navegador no soporta este video Juego. Deber actualizar el navegador o usar otro.
+            </canvas>
+        </div>
+
+        <script>
+            // User Data
+            const debugIsActive = false;
+            var studentName = "";
+            var age = "";
+            var level = "";
+            var school= "";
+            var schedule = "";
+
+            // Analiticas del juego
+            var cantidadErrores = 0;
+            var cantidadAciertos = 0;
+            var cantidadIntentos = 0;
+            var fechaInicio = '';
+            var fechaFin = '';
+
+            // Globales
+            var cognadoElegidoParaEntrenar = null;
+            var contadorClicksSobreBloqueador = 0;
+
+            var cognados = [
+            {
+                id: 1,
+                nombre: "BEE_PEA",
+                sonidoCorrecto: "assets/sonidos-cognados/1-BEE.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/1-PEA.mp3"
+            },
+            {
+                id: 2,
+                nombre: "BARK_PARK",
+                sonidoCorrecto: "assets/sonidos-cognados/2-BARK.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/2-PARK.mp3"
+            },
+            {
+                id: 3,
+                nombre: "PEN_TEN",
+                sonidoCorrecto: "assets/sonidos-cognados/3-PEN.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/3-TEN.mp3"
+            },
+            {
+                id: 4,
+                nombre: "DIG_PIG",
+                sonidoCorrecto: "assets/sonidos-cognados/4-DIG.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/4-PIG.mp3"
+            },
+            {
+                id: 5,
+                nombre: "BOY_TOY",
+                sonidoCorrecto: "assets/sonidos-cognados/5-BOY.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/5-TOY.mp3"
+            },
+            {
+                id: 6,
+                nombre: "BUY_TIE",
+                sonidoCorrecto: "assets/sonidos-cognados/6-BUY.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/6-TIE.mp3"
+            },
+            {
+                id: 7,
+                nombre: "BIN_TIN",
+                sonidoCorrecto: "assets/sonidos-cognados/7-BIN.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/7-TIN.mp3"
+            },
+            {
+                id: 8,
+                nombre: "BALL_TALL",
+                sonidoCorrecto: "assets/sonidos-cognados/8-BALL.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/8-TALL.mp3"
+            },
+            {
+                id: 9,
+                nombre: "BEEP_DEEP",
+                sonidoCorrecto: "assets/sonidos-cognados/9-BEEP.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/9-DEEP.mp3"
+            },
+            {
+                id: 10,
+                nombre: "BAG_GAG",
+                sonidoCorrecto: "assets/sonidos-cognados/10-BAG.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/10-GAG.mp3"
+            },
+            {
+                id: 11,
+                nombre: "BOLD_GOLD",
+                sonidoCorrecto: "assets/sonidos-cognados/11-BOLD.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/11-GOLD.mp3"
+            },
+            {
+                id: 12,
+                nombre: "BAN_VAN",
+                sonidoCorrecto: "assets/sonidos-cognados/12-BAN.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/12-VAN.mp3"
+            },
+            {
+                id: 13,
+                nombre: "BUN_SUN",
+                sonidoCorrecto: "assets/sonidos-cognados/13-BUN.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/13-SUN.mp3"
+            },
+            {
+                id: 14,
+                nombre: "BACK_SACK",
+                sonidoCorrecto: "assets/sonidos-cognados/14-BACK.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/14-SACK.mp3"
+            },
+            {
+                id: 15,
+                nombre: "DEAD_RED",
+                sonidoCorrecto: "assets/sonidos-cognados/15-DEAD.mp3",
+                sonidoIncorrecto: "assets/sonidos-cognados/15-RED.mp3"
+            }
+            ];
+
+            // Configuracion del canvas
+            const draw = (canvas) => {
+                const ctx = canvas.getContext("2d");
+            }
+
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+            canvas.height = window.innerHeight
+            canvas.width = window.innerWidth
+
+            const protectorX = canvas.getBoundingClientRect().width / 2;
+            const protectorY = canvas.getBoundingClientRect().height * 60 / 100;
+
+            // Dibujos
+            function dibujarPaisaje(){
+                if (debugIsActive) { console.log('method: dibujarPaisaje()') }
+                var isla = document.getElementById("paisaje");
+                ctx.drawImage(isla, 0, 0, canvas.width, canvas.height);
+            }
+
+            function playSound(sound='') {
+                new Audio(sound).play();
+            }
+
+            function dibujarPirata(imagenPirata=''){
+                pirata = new Image()
+                pirata.onload = function() {
+                    const pirataX = canvas.getBoundingClientRect().width / 2;
+                    const pirataY = canvas.getBoundingClientRect().height * 10 / 100;
+                    ctx.drawImage(pirata, pirataX, pirataY);
+                }
+                pirata.src = imagenPirata
+            }
+
+            function dibujarProtectorSolar(){
+                protector = new Image()
+                protector.onload = function() {
+                    ctx.drawImage(protector, protectorX, protectorY);
+                }
+                protector.src = "assets/protector-solar.png"
+            }            
+
+            function dibujarIslaSinPirata() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                dibujarPaisaje();
+            }
+
+            function onCanvasClick(e){
+                if(clickOnBloqueador(e.clientX, e.clientY)) {
+                    contadorClicksSobreBloqueador += 1;
+                    playSound(cognadoElegidoParaEntrenar.sonidoCorrecto);
+                    if (contadorClicksSobreBloqueador == 5) {
+                        setTimeout(function(){
+                            playSound("assets/sonidos-pirata/ya-casi-estas-listo.mp3");
+                        }, 1000);
+                    }
+                    if (contadorClicksSobreBloqueador == 10) {
+                        setTimeout(function(){
+                            playSound("assets/sonidos-pirata/muy-bien-protejamonos-del-sol.mp3");
+                            setTimeout(function(){
+                                window.location.replace("par-minimo-bloqueador-tarea.html"+buildPathParams());
+                            }, 2000);
+                        }, 2000);
+                    }
+                }
+            }
+
+            function clickOnBloqueador(clickX, clickY) {
+                //                                        5%                                          20%
+                return clickX > protectorX && clickX < protectorX + (protectorX*18/100)  
+                    && clickY > protectorY - (protectorY*5/100)  && clickY < protectorY + (protectorY*30/100)
+            }
+
+            function dibujarCoins(){
+                if (debugIsActive) { console.log('method: dibujarCoins()') }
+                onWonCoins()
+                coin = new Image();
+                coin.onload = function() {
+                    ctx.drawImage(coin, canvas.getBoundingClientRect().width - 100, 50);
+                };
+                imagen_moneda = '';
+                if (ganoMonedas) {
+                    imagen_moneda = 'assets/coins+10.png';
+                } else {
+                    imagen_moneda = 'assets/coins-10.png';
+                }
+                coin.src = imagen_moneda;
+            }
+
+            function seleccionarCognadoParaEntrenar() {
+                random = Math.floor(Math.random() * cognados.length)
+                cognadoElegidoParaEntrenar = cognados[random]
+            }
+
+            function buildPathParams(){
+                return "?studentName="+studentName
+                      +"&age="+age
+                      +"&level="+level
+                      +"&school="+school
+                      +"&schedule="+schedule
+                      +"&cognadoId="+cognadoElegidoParaEntrenar.id;
+            }
+            
+            function getURLParameter(sParam){
+                var sPageURL = window.location.search.substring(1);
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++) {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] == sParam) {
+                        return sParameterName[1];
+                    }
+                }
+            }
+
+            function readAndLoadUserDataFromUrl() {
+                studentName = getURLParameter('studentName');
+                age = getURLParameter('age');
+                level = getURLParameter('level');
+                school = getURLParameter('school');
+                schedule = getURLParameter('schedule');
+            }
+
+            function getCompleteDate(){
+                const currentdate = new Date();
+                return currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + "|"  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+            }
+
+            // Eventos de window
+            window.onload = function() {
+                fechaInicio = getCompleteDate()
+                readAndLoadUserDataFromUrl()
+                dibujarPaisaje();
+                dibujarPirata(pirata="assets/pirata-1.png")
+                dibujarProtectorSolar();
+                seleccionarCognadoParaEntrenar();
+            }
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth
+                canvas.height = window.innerHeight
+                draw(canvas)
+                dibujarPaisaje();
+                dibujarPirata(pirata="assets/pirata-1.png")
+                dibujarProtectorSolar();
+            })
+
+            canvas.addEventListener("click", onCanvasClick);
+
+        </script>
+
+    </body>
+</html>

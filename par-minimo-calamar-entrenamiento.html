@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div hidden>
+            <!-- Precargue de imagenes para aumentar performance -->
+            <img id="paisaje" src="assets/paisaje.png" />
+        </div>
+
+        <div style="text-align: center;">
+            <canvas id="canvas" style="border:1px solid #d3d3d3;">
+                Tu navegador no soporta este video Juego. Deber actualizar el navegador o usar otro.
+            </canvas>
+        </div>
+
+        <script>
+            // Globales
+            const debugIsActive = false;
+            var studentName = "";
+            var age = "";
+            var level = "";
+            var school= "";
+            var schedule = "";
+
+            // Analiticas del juego
+            var cantidadErrores = 0;
+            var cantidadAciertos = 0;
+            var cantidadIntentos = 0;
+            var fechaInicio = '';
+            var fechaFin = '';
+
+            // Configuracion del canvas
+            const draw = (canvas) => {
+                const ctx = canvas.getContext("2d");
+            }
+
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+            canvas.height = window.innerHeight
+            canvas.width = window.innerWidth
+
+            // Dibujos
+            function dibujarPaisaje(){
+                if (debugIsActive) { console.log('method: dibujarPaisaje()') }
+                var isla = document.getElementById("paisaje");
+                ctx.drawImage(isla, 0, 0, canvas.width, canvas.height);
+            }
+
+            function playSound(sound='') {
+                new Audio(sound).play();
+            }
+
+            function onCanvasClick(e){
+                // 
+            }
+
+            function dibujarCoins(){
+                if (debugIsActive) { console.log('method: dibujarCoins()') }
+                onWonCoins()
+                coin = new Image();
+                coin.onload = function() {
+                    ctx.drawImage(coin, canvas.getBoundingClientRect().width - 100, 50);
+                };
+                imagen_moneda = '';
+                if (ganoMonedas) {
+                    imagen_moneda = 'assets/coins+10.png';
+                } else {
+                    imagen_moneda = 'assets/coins-10.png';
+                }
+                coin.src = imagen_moneda;
+            }
+
+            function buildPathParams(){
+                return "?studentName="+studentName+"&age="+age+"&level="+level+"&school="+school+"&schedule="+schedule;
+            }
+            
+            function getURLParameter(sParam){
+                var sPageURL = window.location.search.substring(1);
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++) {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] == sParam) {
+                        return sParameterName[1];
+                    }
+                }
+            }
+
+            function readAndLoadUserDataFromUrl() {
+                studentName = getURLParameter('studentName');
+                age = getURLParameter('age');
+                level = getURLParameter('level');
+                school = getURLParameter('school');
+                schedule = getURLParameter('schedule');
+            }
+
+            function getCompleteDate(){
+                const currentdate = new Date();
+                return currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + "|"  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+            }
+
+            // Eventos de window
+            window.onload = function() {
+                fechaInicio = getCompleteDate()
+                readAndLoadUserDataFromUrl()
+                dibujarPaisaje();
+            }
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth
+                canvas.height = window.innerHeight
+                draw(canvas)
+                dibujarPaisaje();
+            })
+
+            canvas.addEventListener("click", onCanvasClick);
+
+        </script>
+
+    </body>
+</html>

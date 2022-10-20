@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <div hidden>
+        <!-- Precargue de imagenes para aumentar performance -->
+        <img id="landscape" src="assets/landscape.webp" />
+        <img id="landscape2" src="assets/landscape.webp" />
+        <img id="crocodile_boca_abierta" src="assets/crocodile_boca_abierta.png" />
+        <img id="crocodile" src="assets/crocodile.png" />
+        <img id="pez_nadando_derecha" src="assets/pez_nadando_derecha.png" />
+        <img id="pez_nadando_izquierda" src="assets/pez_nadando_izquierda.png" />
+        <img id="monedas" src="assets/coins.png"/>
+    </div>
+
+    <div style="text-align: center;">
+        <canvas id="canvas" style="border:1px solid #d3d3d3;">
+            Tu navegador no soporta este video Juego. Deber actualizar el navegador o usar otro.
+        </canvas>
+    </div>
+
+<br>
+
+<script>
+
+    // Configuracion del canvas
+    const draw = (canvas) => {
+        const ctx = canvas.getContext("2d");
+    }
+
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight
+    canvas.width = window.innerWidth
+
+
+    // Constantes Globales
+    const debugIsActive = false;
+    const INCREMENTO_NADO_PEZ = 100;
+
+
+    // Variables Globales
+    var direccion_nado_pez_inicial = 1;
+    var incremento = 10
+    var cocodriloTieneBocaAbierta = false;
+    var pescadoFueAtrapado = false;
+    var coordenadaXDondePescadoFueAtrapado = 0;
+    var coordenadaYDondePescadoFueAtrapado = 0;
+    var coordenadaXActualDelPescado = 0;
+    var coordenadaYActualDelPescado = 0;
+    var clicksSobrePescado = 0;
+    var clicksSobreCocodrilo = 0;
+
+    // User Data
+    var studentName = "";
+    var age = "";
+    var level = "";
+    var school = "";
+    var schedule = "";
+
+    var cognadoSeleccionado = null;
+    var cognados = [
+        {
+            id: 1,
+            nombre: "BEE_PEA",
+            sonidoCorrecto: "assets/sonidos-cognados/1-BEE.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/1-PEA.mp3"
+        },
+        {
+            id: 2,
+            nombre: "BARK_PARK",
+            sonidoCorrecto: "assets/sonidos-cognados/2-BARK.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/2-PARK.mp3"
+        },
+        {
+            id: 3,
+            nombre: "PEN_TEN",
+            sonidoCorrecto: "assets/sonidos-cognados/3-PEN.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/3-TEN.mp3"
+        },
+        {
+            id: 4,
+            nombre: "DIG_PIG",
+            sonidoCorrecto: "assets/sonidos-cognados/4-DIG.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/4-PIG.mp3"
+        },
+        {
+            id: 5,
+            nombre: "BOY_TOY",
+            sonidoCorrecto: "assets/sonidos-cognados/5-BOY.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/5-TOY.mp3"
+        },
+        {
+            id: 6,
+            nombre: "BUY_TIE",
+            sonidoCorrecto: "assets/sonidos-cognados/6-BUY.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/6-TIE.mp3"
+        },
+        {
+            id: 7,
+            nombre: "BIN_TIN",
+            sonidoCorrecto: "assets/sonidos-cognados/7-BIN.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/7-TIN.mp3"
+        },
+        {
+            id: 8,
+            nombre: "BALL_TALL",
+            sonidoCorrecto: "assets/sonidos-cognados/8-BALL.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/8-TALL.mp3"
+        },
+        {
+            id: 9,
+            nombre: "BEEP_DEEP",
+            sonidoCorrecto: "assets/sonidos-cognados/9-BEEP.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/9-DEEP.mp3"
+        },
+        {
+            id: 10,
+            nombre: "BAG_GAG",
+            sonidoCorrecto: "assets/sonidos-cognados/10-BAG.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/10-GAG.mp3"
+        },
+        {
+            id: 11,
+            nombre: "BOLD_GOLD",
+            sonidoCorrecto: "assets/sonidos-cognados/11-BOLD.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/11-GOLD.mp3"
+        },
+        {
+            id: 12,
+            nombre: "BAN_VAN",
+            sonidoCorrecto: "assets/sonidos-cognados/12-BAN.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/12-VAN.mp3"
+        },
+        {
+            id: 13,
+            nombre: "BUN_SUN",
+            sonidoCorrecto: "assets/sonidos-cognados/13-BUN.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/13-SUN.mp3"
+        },
+        {
+            id: 14,
+            nombre: "BACK_SACK",
+            sonidoCorrecto: "assets/sonidos-cognados/14-BACK.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/14-SACK.mp3"
+        },
+        {
+            id: 15,
+            nombre: "DEAD_RED",
+            sonidoCorrecto: "assets/sonidos-cognados/15-DEAD.mp3",
+            sonidoIncorrecto: "assets/sonidos-cognados/15-RED.mp3"
+        }
+    ];
+
+    function dibujarPaisaje(){
+        if (debugIsActive) { console.log('method: dibujarPaisaje()') }
+        var paisaje = document.getElementById("landscape");
+        ctx.drawImage(paisaje, 0, 0, canvas.width, canvas.height);
+    }
+
+    function dibujarCocodrilo(){
+        if (debugIsActive) { console.log('method: dibujarCocodrilo()') }
+        cocodrilo = new Image();
+        cocodrilo.onload = function() {
+            const canvasW = canvas.getBoundingClientRect().width;
+            const canvasH = canvas.getBoundingClientRect().height;
+            if (debugIsActive) { console.log("Ancho Canvas:", canvasW, "alto canvas:", canvasH) }
+            ctx.drawImage(cocodrilo, canvas.width/2, canvas.height/2);
+        };
+        cocodriloImage = '';
+        if (cocodriloTieneBocaAbierta) {
+            cocodriloImage = 'assets/crocodile_boca_abierta.png';
+        } else {
+            cocodriloImage = 'assets/crocodile.png';
+        }
+        cocodrilo.src = cocodriloImage;
+    }
+
+    function dibujarPez(pescado='', incremento=0){
+        if (debugIsActive) { console.log('method: dibujarPez()') }
+        pez = new Image();
+        pez.onload = function() {
+            const pescadoX = canvas.getBoundingClientRect().width/2
+            const pescadoY = canvas.getBoundingClientRect().height - canvas.getBoundingClientRect().height/3;
+            coordenadaXActualDelPescado = pescadoX+incremento;
+            coordenadaYActualDelPescado = pescadoY;
+            ctx.drawImage(pez, pescadoX+incremento, pescadoY);
+            if (debugIsActive) { console.log("Coordenada Actual Pescado => (",coordenadaXActualDelPescado,",",pescadoY,")") }
+        };
+        pez.src = pescado;
+    }
+
+    function playIntroSound() {
+        if (debugIsActive) { console.log('method: playIntroSound()') }
+        new Audio("assets/intro_sound.mp3").play();
+    }
+
+    function onWonCoins() {
+        if (debugIsActive) { console.log('method: onWonCoins()') }
+        new Audio("assets/coins.mp3").play();
+    }
+
+    function dibujarCoins(){
+        if (debugIsActive) { console.log('method: dibujarCoins()') }
+        if (pescadoFueAtrapado) {
+            onWonCoins()
+            coin = new Image();
+            coin.onload = function() {
+                ctx.drawImage(coin, canvas.getBoundingClientRect().width - 100, 50);
+            };
+            coin.src = 'assets/coins.png'
+        }
+    }
+
+    function debeCambiarDireccionDeNado(){
+        if (debugIsActive) { console.log('method: debeCambiarDireccionDeNado()') }
+        const direccion_nado = Math.floor(Math.random() * 2); // 1 derecha, 0 izquierda
+        return direccion_nado_pez_inicial != direccion_nado
+    }
+
+    function nadar() {
+        if (debugIsActive) { console.log('method: nadar()') }
+        if (debeCambiarDireccionDeNado()) {
+            clearCanvasSinPescado()
+            if (this.direccion_nado_pez_inicial === 1) {
+                this.direccion_nado_pez_inicial = 0
+                nuevo_incremento = incremento + INCREMENTO_NADO_PEZ
+                dibujarPez(pescado='assets/pez_nadando_derecha.png', incremento=nuevo_incremento)    
+            } else {
+                this.direccion_nado_pez_inicial = 1
+                nuevo_incremento = incremento - INCREMENTO_NADO_PEZ
+                dibujarPez(pescado='assets/pez_nadando_izquierda.png', incremento=nuevo_incremento)  
+            }
+        }
+    }
+
+
+    // Event Listeners y sus funciones
+    // const boton = document.getElementById("boton-limpiar-canvas");
+    // boton.addEventListener("click", clearCanvas);
+    canvas.addEventListener("click", onCanvasClick);
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        draw(canvas)
+    })
+
+    function playSound(audioPath) {
+        if (debugIsActive) { console.log('method: playSound()') }
+        new Audio(audioPath).play();
+    }
+
+    function onCanvasClick(e){
+        if (clickOnCocodrilo(canvas.width/2, canvas.height/2, e.clientX, e.clientY)){
+            playSound(cognadoSeleccionado.sonidoCorrecto)
+            clicksSobreCocodrilo += 1;
+            if (clicksSobreCocodrilo >=5) {
+                setTimeout(function(){
+                    window.location.replace("tarea1.html"+buildPathParams());
+                }, 2000);
+            }
+        }
+        // alert('Click => x:' + e.clientX + 'Y:' + e.clientY)
+        if (debugIsActive) { console.log('method: onCanvasClick()') }
+        e.preventDefault();
+        if (debugIsActive) { console.log('Click => x:' + e.clientX + 'Y:' + e.clientY) }
+        if(clickOnFish(e.clientX, e.clientY)){
+            playSound(cognadoSeleccionado.sonidoCorrecto);
+            clicksSobrePescado = clicksSobrePescado + 1;
+            coordenadaXDondePescadoFueAtrapado = e.clientX;
+            coordenadaYDondePescadoFueAtrapado = e.clientY;
+            cocodriloTieneBocaAbierta = true;
+            pescadoFueAtrapado = true;
+            clearCanvasSinPescado()
+            pescadoFueAtrapado = false;
+            setTimeout(function(){
+                cocodriloTieneBocaAbierta = false;
+                pescadoFueAtrapado = false;
+                clearCanvas();
+            }, 3000);
+
+            if (clicksSobrePescado >= 5) {
+                playSound(cognadoSeleccionado.sonidoCorrecto);
+                setTimeout(function(){
+                    window.location.replace("tarea1.html"+buildPathParams());
+                }, 2000);
+            }
+        }
+    }
+
+    function clickOnFish(clickX, clickY) {
+        if (debugIsActive) { console.log('method: clickOnFish()') }
+        return clickX > coordenadaXActualDelPescado - 75 && clickX < coordenadaXActualDelPescado + 75 
+            && clickY > coordenadaYActualDelPescado - 80 && clickY < coordenadaYActualDelPescado + 80
+    }
+
+    function clickOnCocodrilo(cocodrilox, cocodriloy, x, y) {
+        const respuesta = cocodrilox < x + 75 && cocodrilox > x - 75
+        && cocodriloy < y + 80 && cocodriloy > y - 80
+        var mensaje = "Cocodrilo=>("+cocodrilox+","+cocodriloy+"), Click=>("+x+","+y+"), R=>["+respuesta+"]";
+        if (debugIsActive) { console.log('method: clickOnCocodrilo() => ' + mensaje) }
+        return respuesta;
+    }
+
+    function clearCanvas() {
+        if (debugIsActive) { console.log('method: clearCanvas()') }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        dibujarPaisaje();
+        dibujarPez(pescado='assets/pez_nadando_derecha.png')
+        dibujarCocodrilo();
+    }
+
+    function clearCanvasSinPescado() {
+        if (debugIsActive) { console.log('method: clearCanvasSinPescado()') }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        dibujarPaisaje();
+        dibujarCocodrilo();
+        dibujarCoins()
+    }
+
+    function buildPathParams(){
+        return "?studentName="+studentName+"&age="+age+"&level="+level+"&school="+school+"&schedule="+schedule;
+    }
+
+    function getURLParameter(sParam){
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam) {
+                return sParameterName[1];
+            }
+        }
+    }
+
+    function readAndLoadUserDataFromUrl() {
+        studentName = getURLParameter('studentName');
+        age = getURLParameter('age');
+        level = getURLParameter('level');
+        school = getURLParameter('school');
+        schedule = getURLParameter('schedule');
+    }
+
+    function elegirCognadoParaEntrenar() {
+        random = Math.floor(Math.random() * cognados.length)
+        cognadoSeleccionado = cognados[random]
+    }
+
+    // --------------------------------------- //
+    window.onload = function() {
+        dibujarPaisaje();
+        dibujarPez(pescado='assets/pez_nadando_derecha.png')
+        dibujarCocodrilo();
+        readAndLoadUserDataFromUrl();
+        elegirCognadoParaEntrenar();
+        if(debugIsActive) {
+            console.log("==============================")
+            console.log("studentName:"+studentName)
+            console.log("age:"+age)
+            console.log("level:"+level)
+            console.log("school:"+school)
+            console.log("schedule:"+schedule)
+            console.log("==============================")
+        }
+        var intervaloNadoPez = setInterval(nadar, 1000);
+    }
+
+</script>
+
+</body>
+</html>
