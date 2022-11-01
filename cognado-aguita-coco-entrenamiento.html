@@ -33,98 +33,98 @@
 
             // Globales
             var cognadoElegidoParaEntrenar = null;
-            var contadorClicksSobreBloqueador = 0;
+            var contadorClicksSobreConcha = 0;
 
-            var paresMinimos = [
+            var cognados = [
             {
                 id: 1,
-                nombre: "BEE_PEA",
-                sonidoCorrecto: "assets/pares-minimos/1-BEE.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/1-PEA.mp3"
+                nombre: "MANGO",
+                sonidoCorrecto: "assets/cognados/1-EN_MANGOU.mp3",
+                sonidoIncorrecto: "assets/cognados/1-ES_Mango.mp3"
             },
             {
                 id: 2,
-                nombre: "BARK_PARK",
-                sonidoCorrecto: "assets/pares-minimos/2-BARK.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/2-PARK.mp3"
+                nombre: "MELON",
+                sonidoCorrecto: "assets/cognados/2-EN_MELLON.mp3",
+                sonidoIncorrecto: "assets/cognados/2-ES_Melon.mp3"
             },
             {
                 id: 3,
-                nombre: "PEN_TEN",
-                sonidoCorrecto: "assets/pares-minimos/3-PEN.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/3-TEN.mp3"
+                nombre: "GORILA",
+                sonidoCorrecto: "assets/cognados/3-EN_GORILLA.mp3",
+                sonidoIncorrecto: "assets/cognados/3-ES_Gorila.mp3"
             },
             {
                 id: 4,
-                nombre: "DIG_PIG",
-                sonidoCorrecto: "assets/pares-minimos/4-DIG.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/4-PIG.mp3"
+                nombre: "COCO",
+                sonidoCorrecto: "assets/cognados/4-EN_COCONUT.mp3",
+                sonidoIncorrecto: "assets/cognados/4-ES_Coco.mp3"
             },
             {
                 id: 5,
-                nombre: "BOY_TOY",
-                sonidoCorrecto: "assets/pares-minimos/5-BOY.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/5-TOY.mp3"
+                nombre: "MANDARINA",
+                sonidoCorrecto: "assets/cognados/5-EN_MANDARIN.mp3",
+                sonidoIncorrecto: "assets/cognados/5-ES_Mandarina.mp3"
             },
             {
                 id: 6,
-                nombre: "BUY_TIE",
-                sonidoCorrecto: "assets/pares-minimos/6-BUY.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/6-TIE.mp3"
+                nombre: "BANANO",
+                sonidoCorrecto: "assets/cognados/6-EN_BANANA.mp3",
+                sonidoIncorrecto: "assets/cognados/6-ES_Banano.mp3"
             },
             {
                 id: 7,
-                nombre: "BIN_TIN",
-                sonidoCorrecto: "assets/pares-minimos/7-BIN.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/7-TIN.mp3"
+                nombre: "LIMON",
+                sonidoCorrecto: "assets/cognados/7-EN_LEMON.mp3",
+                sonidoIncorrecto: "assets/cognados/7-ES_Limon.mp3"
             },
             {
                 id: 8,
-                nombre: "BALL_TALL",
-                sonidoCorrecto: "assets/pares-minimos/8-BALL.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/8-TALL.mp3"
+                nombre: "ELEFANTE",
+                sonidoCorrecto: "assets/cognados/8-EN_ELEPHANT.mp3",
+                sonidoIncorrecto: "assets/cognados/8-ES_Elefante.mp3"
             },
             {
                 id: 9,
-                nombre: "BEEP_DEEP",
-                sonidoCorrecto: "assets/pares-minimos/9-BEEP.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/9-DEEP.mp3"
+                nombre: "HIPOPOTAMO",
+                sonidoCorrecto: "assets/cognados/9-EN_HIPPOPOTAMUS.mp3",
+                sonidoIncorrecto: "assets/cognados/9-ES_Hipopotamo.mp3"
             },
             {
                 id: 10,
-                nombre: "BAG_GAG",
-                sonidoCorrecto: "assets/pares-minimos/10-BAG.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/10-GAG.mp3"
+                nombre: "DELFIN",
+                sonidoCorrecto: "assets/cognados/10-EN_DOLPHIN.mp3",
+                sonidoIncorrecto: "assets/cognados/10-ES_Delfin.mp3"
             },
             {
                 id: 11,
-                nombre: "BOLD_GOLD",
-                sonidoCorrecto: "assets/pares-minimos/11-BOLD.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/11-GOLD.mp3"
+                nombre: "COCODRILO",
+                sonidoCorrecto: "assets/cognados/11-EN_CROCODILE.mp3",
+                sonidoIncorrecto: "assets/cognados/11-ENCocodrilo.mp3"
             },
             {
                 id: 12,
-                nombre: "BAN_VAN",
-                sonidoCorrecto: "assets/pares-minimos/12-BAN.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/12-VAN.mp3"
+                nombre: "JIRAFA",
+                sonidoCorrecto: "assets/cognados/12-EN_GIRAFFIE.mp3",
+                sonidoIncorrecto: "assets/cognados/12-ES_Jirafa.mp3"
             },
             {
                 id: 13,
-                nombre: "BUN_SUN",
-                sonidoCorrecto: "assets/pares-minimos/13-BUN.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/13-SUN.mp3"
+                nombre: "DINOSAURIO",
+                sonidoCorrecto: "assets/cognados/13-EN_DINOSAUR.mp3",
+                sonidoIncorrecto: "assets/cognados/13-ES_Dinosaurio.mp3"
             },
             {
                 id: 14,
-                nombre: "BACK_SACK",
-                sonidoCorrecto: "assets/pares-minimos/14-BACK.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/14-SACK.mp3"
+                nombre: "LEON",
+                sonidoCorrecto: "assets/cognados/14-EN_LION.mp3",
+                sonidoIncorrecto: "assets/cognados/14-ES_Leon.mp3"
             },
             {
                 id: 15,
-                nombre: "DEAD_RED",
-                sonidoCorrecto: "assets/pares-minimos/15-DEAD.mp3",
-                sonidoIncorrecto: "assets/pares-minimos/15-RED.mp3"
+                nombre: "PAPAYA",
+                sonidoCorrecto: "assets/cognados/15-EN_PAPAYA.mp3",
+                sonidoIncorrecto: "assets/cognados/15-ES_Papaya.mp3"
             }
             ];
 
@@ -138,8 +138,8 @@
             canvas.height = window.innerHeight
             canvas.width = window.innerWidth
 
-            const protectorX = canvas.getBoundingClientRect().width / 2;
-            const protectorY = canvas.getBoundingClientRect().height * 60 / 100;
+            const conchaX = canvas.getBoundingClientRect().width / 2;
+            const conchaY = canvas.getBoundingClientRect().height * 60 / 100;
 
             // Dibujos
             function dibujarPaisaje(){
@@ -162,13 +162,13 @@
                 pirata.src = imagenPirata
             }
 
-            function dibujarProtectorSolar(){
-                protector = new Image()
-                protector.onload = function() {
-                    ctx.drawImage(protector, protectorX, protectorY);
+            function dibujarConcha(){
+                concha = new Image()
+                concha.onload = function() {
+                    ctx.drawImage(concha, conchaX, conchaY);
                 }
-                protector.src = "assets/protector-solar.png"
-            }            
+                concha.src = "assets/coco.png"
+            }
 
             function dibujarIslaSinPirata() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -176,29 +176,29 @@
             }
 
             function onCanvasClick(e){
-                if(clickOnBloqueador(e.clientX, e.clientY)) {
-                    contadorClicksSobreBloqueador += 1;
+                if(clickOnConcha(e.clientX, e.clientY)) {
+                    contadorClicksSobreConcha += 1;
                     playSound(cognadoElegidoParaEntrenar.sonidoCorrecto);
-                    if (contadorClicksSobreBloqueador == 5) {
+                    if (contadorClicksSobreConcha == 5) {
                         setTimeout(function(){
                             playSound("assets/sonidos-pirata/ya-casi-estas-listo.mp3");
                         }, 1000);
                     }
-                    if (contadorClicksSobreBloqueador == 10) {
+                    if (contadorClicksSobreConcha == 10) {
                         setTimeout(function(){
                             playSound("assets/sonidos-pirata/muy-bien-protejamonos-del-sol.mp3");
                             setTimeout(function(){
-                                window.location.replace("par-minimo-bloqueador-tarea.html"+buildPathParams());
+                                window.location.replace("cognado-aguita-coco-tarea.html"+buildPathParams());
                             }, 2000);
                         }, 2000);
                     }
                 }
             }
 
-            function clickOnBloqueador(clickX, clickY) {
+            function clickOnConcha(clickX, clickY) {
                 //                                        5%                                          20%
-                return clickX > protectorX && clickX < protectorX + (protectorX*18/100)  
-                    && clickY > protectorY - (protectorY*5/100)  && clickY < protectorY + (protectorY*30/100)
+                return clickX > conchaX && clickX < conchaX + (conchaX*18/100)  
+                    && clickY > conchaY - (conchaY*5/100)  && clickY < conchaY + (conchaY*30/100)
             }
 
             function dibujarCoins(){
@@ -218,8 +218,8 @@
             }
 
             function seleccionarCognadoParaEntrenar() {
-                random = Math.floor(Math.random() * paresMinimos.length)
-                cognadoElegidoParaEntrenar = paresMinimos[random]
+                random = Math.floor(Math.random() * cognados.length)
+                cognadoElegidoParaEntrenar = cognados[random]
             }
 
             function buildPathParams(){
@@ -266,7 +266,7 @@
                 readAndLoadUserDataFromUrl()
                 dibujarPaisaje();
                 dibujarPirata(pirata="assets/pirata-1.png")
-                dibujarProtectorSolar();
+                dibujarConcha();
                 seleccionarCognadoParaEntrenar();
             }
 
@@ -276,7 +276,7 @@
                 draw(canvas)
                 dibujarPaisaje();
                 dibujarPirata(pirata="assets/pirata-1.png")
-                dibujarProtectorSolar();
+                dibujarConcha();
             })
 
             canvas.addEventListener("click", onCanvasClick);

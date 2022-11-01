@@ -19,6 +19,7 @@
             var level = "";
             var school= "";
             var schedule = "";
+            var cognadoIdParaEntrenar = 0;
 
             // Globales
             const debugIsActive = false;
@@ -55,93 +56,93 @@
             var cognados = [
                 {
                     id: 1,
-                    nombre: "BEE_PEA",
-                    sonidoCorrecto: "assets/sonidos-cognados/1-BEE.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/1-PEA.mp3"
+                    nombre: "MANGO",
+                    sonidoCorrecto: "assets/cognados/1-EN_MANGOU.mp3",
+                    sonidoIncorrecto: "assets/cognados/1-ES_Mango.mp3"
                 },
                 {
                     id: 2,
-                    nombre: "BARK_PARK",
-                    sonidoCorrecto: "assets/sonidos-cognados/2-BARK.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/2-PARK.mp3"
+                    nombre: "MELON",
+                    sonidoCorrecto: "assets/cognados/2-EN_MELLON.mp3",
+                    sonidoIncorrecto: "assets/cognados/2-ES_Melon.mp3"
                 },
                 {
                     id: 3,
-                    nombre: "PEN_TEN",
-                    sonidoCorrecto: "assets/sonidos-cognados/3-PEN.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/3-TEN.mp3"
+                    nombre: "GORILA",
+                    sonidoCorrecto: "assets/cognados/3-EN_GORILLA.mp3",
+                    sonidoIncorrecto: "assets/cognados/3-ES_Gorila.mp3"
                 },
                 {
                     id: 4,
-                    nombre: "DIG_PIG",
-                    sonidoCorrecto: "assets/sonidos-cognados/4-DIG.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/4-PIG.mp3"
+                    nombre: "COCO",
+                    sonidoCorrecto: "assets/cognados/4-EN_COCONUT.mp3",
+                    sonidoIncorrecto: "assets/cognados/4-ES_Coco.mp3"
                 },
                 {
                     id: 5,
-                    nombre: "BOY_TOY",
-                    sonidoCorrecto: "assets/sonidos-cognados/5-BOY.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/5-TOY.mp3"
+                    nombre: "MANDARINA",
+                    sonidoCorrecto: "assets/cognados/5-EN_MANDARIN.mp3",
+                    sonidoIncorrecto: "assets/cognados/5-ES_Mandarina.mp3"
                 },
                 {
                     id: 6,
-                    nombre: "BUY_TIE",
-                    sonidoCorrecto: "assets/sonidos-cognados/6-BUY.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/6-TIE.mp3"
+                    nombre: "BANANO",
+                    sonidoCorrecto: "assets/cognados/6-EN_BANANA.mp3",
+                    sonidoIncorrecto: "assets/cognados/6-ES_Banano.mp3"
                 },
                 {
                     id: 7,
-                    nombre: "BIN_TIN",
-                    sonidoCorrecto: "assets/sonidos-cognados/7-BIN.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/7-TIN.mp3"
+                    nombre: "LIMON",
+                    sonidoCorrecto: "assets/cognados/7-EN_LEMON.mp3",
+                    sonidoIncorrecto: "assets/cognados/7-ES_Limon.mp3"
                 },
                 {
                     id: 8,
-                    nombre: "BALL_TALL",
-                    sonidoCorrecto: "assets/sonidos-cognados/8-BALL.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/8-TALL.mp3"
+                    nombre: "ELEFANTE",
+                    sonidoCorrecto: "assets/cognados/8-EN_ELEPHANT.mp3",
+                    sonidoIncorrecto: "assets/cognados/8-ES_Elefante.mp3"
                 },
                 {
                     id: 9,
-                    nombre: "BEEP_DEEP",
-                    sonidoCorrecto: "assets/sonidos-cognados/9-BEEP.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/9-DEEP.mp3"
+                    nombre: "HIPOPOTAMO",
+                    sonidoCorrecto: "assets/cognados/9-EN_HIPPOPOTAMUS.mp3",
+                    sonidoIncorrecto: "assets/cognados/9-ES_Hipopotamo.mp3"
                 },
                 {
                     id: 10,
-                    nombre: "BAG_GAG",
-                    sonidoCorrecto: "assets/sonidos-cognados/10-BAG.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/10-GAG.mp3"
+                    nombre: "DELFIN",
+                    sonidoCorrecto: "assets/cognados/10-EN_DOLPHIN.mp3",
+                    sonidoIncorrecto: "assets/cognados/10-ES_Delfin.mp3"
                 },
                 {
                     id: 11,
-                    nombre: "BOLD_GOLD",
-                    sonidoCorrecto: "assets/sonidos-cognados/11-BOLD.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/11-GOLD.mp3"
+                    nombre: "COCODRILO",
+                    sonidoCorrecto: "assets/cognados/11-EN_CROCODILE.mp3",
+                    sonidoIncorrecto: "assets/cognados/11-ENCocodrilo.mp3"
                 },
                 {
                     id: 12,
-                    nombre: "BAN_VAN",
-                    sonidoCorrecto: "assets/sonidos-cognados/12-BAN.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/12-VAN.mp3"
+                    nombre: "JIRAFA",
+                    sonidoCorrecto: "assets/cognados/12-EN_GIRAFFIE.mp3",
+                    sonidoIncorrecto: "assets/cognados/12-ES_Jirafa.mp3"
                 },
                 {
                     id: 13,
-                    nombre: "BUN_SUN",
-                    sonidoCorrecto: "assets/sonidos-cognados/13-BUN.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/13-SUN.mp3"
+                    nombre: "DINOSAURIO",
+                    sonidoCorrecto: "assets/cognados/13-EN_DINOSAUR.mp3",
+                    sonidoIncorrecto: "assets/cognados/13-ES_Dinosaurio.mp3"
                 },
                 {
                     id: 14,
-                    nombre: "BACK_SACK",
-                    sonidoCorrecto: "assets/sonidos-cognados/14-BACK.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/14-SACK.mp3"
+                    nombre: "LEON",
+                    sonidoCorrecto: "assets/cognados/14-EN_LION.mp3",
+                    sonidoIncorrecto: "assets/cognados/14-ES_Leon.mp3"
                 },
                 {
                     id: 15,
-                    nombre: "DEAD_RED",
-                    sonidoCorrecto: "assets/sonidos-cognados/15-DEAD.mp3",
-                    sonidoIncorrecto: "assets/sonidos-cognados/15-RED.mp3"
+                    nombre: "PAPAYA",
+                    sonidoCorrecto: "assets/cognados/15-EN_PAPAYA.mp3",
+                    sonidoIncorrecto: "assets/cognados/15-ES_Papaya.mp3"
                 }
             ];
 
@@ -304,8 +305,9 @@
             }
 
             function asignarVenenoYSonidoSerpientes(){
-                random = Math.floor(Math.random() * cognados.length)
-                cognadoSeleccionado = cognados[random]
+                // random = Math.floor(Math.random() * cognados.length)
+                // cognadoSeleccionado = cognados[random]
+                cognadoSeleccionado = cognadoBy(cognadoIdParaEntrenar)
                 for (let i = 0; i < serpientes.length; i++) {
                     serpiente = serpientes[i];
                     serpiente.esVenenosa = obtenerVenenoDeSerpiente()
@@ -315,6 +317,11 @@
                         serpiente.sonido = cognadoSeleccionado.sonidoIncorrecto;
                     }
                 }
+            }
+
+            function cognadoBy(id){
+                const cognadosFound = cognados.filter(c => c.id == id);
+                return cognadosFound[0];
             }
 
             var contadorSerpientesVenenosas = 1;
@@ -366,7 +373,7 @@
                     fechaFin = getCompleteDate()
                     setTimeout(function(){
                         //window.location.replace("entrenamiento3.html"+buildPathParams());
-                        window.location.replace("par-minimo-desayuno-entrenamiento.html"+buildPathParams());
+                        window.location.replace("cognado-concha-entrenamiento.html"+buildPathParams());
                     }, 2000);
                 }
                 if (cantidadErrores >= 6) {
@@ -526,6 +533,7 @@
                 level = getURLParameter('level');
                 school = getURLParameter('school');
                 schedule = getURLParameter('schedule');
+                cognadoIdParaEntrenar = getURLParameter('cognadoId');
             }
 
             function getCompleteDate(){

@@ -19,3 +19,98 @@ https://retoucher.online/transparent-background
 Fit canvas to the windows zize
 https://thewebdev.info/2021/03/01/how-to-resize-html5-canvas-to-fit-the-window/
 
+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
+
+
+var cognadosOld = [
+                {
+                    id: 1,
+                    nombre: "BEE_PEA",
+                    sonidoCorrecto: "assets/sonidos-cognados/1-BEE.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/1-PEA.mp3"
+                },
+                {
+                    id: 2,
+                    nombre: "BARK_PARK",
+                    sonidoCorrecto: "assets/sonidos-cognados/2-BARK.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/2-PARK.mp3"
+                },
+                {
+                    id: 3,
+                    nombre: "PEN_TEN",
+                    sonidoCorrecto: "assets/sonidos-cognados/3-PEN.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/3-TEN.mp3"
+                },
+                {
+                    id: 4,
+                    nombre: "DIG_PIG",
+                    sonidoCorrecto: "assets/sonidos-cognados/4-DIG.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/4-PIG.mp3"
+                },
+                {
+                    id: 5,
+                    nombre: "BOY_TOY",
+                    sonidoCorrecto: "assets/sonidos-cognados/5-BOY.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/5-TOY.mp3"
+                },
+                {
+                    id: 6,
+                    nombre: "BUY_TIE",
+                    sonidoCorrecto: "assets/sonidos-cognados/6-BUY.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/6-TIE.mp3"
+                },
+                {
+                    id: 7,
+                    nombre: "BIN_TIN",
+                    sonidoCorrecto: "assets/sonidos-cognados/7-BIN.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/7-TIN.mp3"
+                },
+                {
+                    id: 8,
+                    nombre: "BALL_TALL",
+                    sonidoCorrecto: "assets/sonidos-cognados/8-BALL.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/8-TALL.mp3"
+                },
+                {
+                    id: 9,
+                    nombre: "BEEP_DEEP",
+                    sonidoCorrecto: "assets/sonidos-cognados/9-BEEP.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/9-DEEP.mp3"
+                },
+                {
+                    id: 10,
+                    nombre: "BAG_GAG",
+                    sonidoCorrecto: "assets/sonidos-cognados/10-BAG.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/10-GAG.mp3"
+                },
+                {
+                    id: 11,
+                    nombre: "BOLD_GOLD",
+                    sonidoCorrecto: "assets/sonidos-cognados/11-BOLD.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/11-GOLD.mp3"
+                },
+                {
+                    id: 12,
+                    nombre: "BAN_VAN",
+                    sonidoCorrecto: "assets/sonidos-cognados/12-BAN.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/12-VAN.mp3"
+                },
+                {
+                    id: 13,
+                    nombre: "BUN_SUN",
+                    sonidoCorrecto: "assets/sonidos-cognados/13-BUN.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/13-SUN.mp3"
+                },
+                {
+                    id: 14,
+                    nombre: "BACK_SACK",
+                    sonidoCorrecto: "assets/sonidos-cognados/14-BACK.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/14-SACK.mp3"
+                },
+                {
+                    id: 15,
+                    nombre: "DEAD_RED",
+                    sonidoCorrecto: "assets/sonidos-cognados/15-DEAD.mp3",
+                    sonidoIncorrecto: "assets/sonidos-cognados/15-RED.mp3"
+                }
+            ];
