@@ -4,9 +4,9 @@
         <div hidden>
             <!-- Precargue de imagenes para aumentar performance -->
             <img id="paisaje" src="assets/bosque.png" />
-            <img id="pirata" src="assets/travel-bag1.png" />
-            <img id="pirata2" src="assets/travel-bag2.png" />
-            <img id="pirata3" src="assets/travel-bag1.png" />
+            <img id="pirata" src="assets/loro1.png" />
+            <img id="pirata2" src="assets/loro2.png" />
+            <img id="pirata3" src="assets/loro1.png" />
         </div>
 
         <div style="text-align: center;">
@@ -37,7 +37,7 @@
             var contadorClicksSobreBloqueador = 0;
             var monedasGanadas = 200;
             var ganoMonedas = false;
-            imagenProtectorDefault = 'assets/hoja-de-arbol.png';
+            imagenProtectorDefault = 'assets/rama.png';
             const MAX_CANT_PROTECTORES_CORRECTOS = 8;
             const MAX_CANT_PROTECTORES_INCORRECTOS = 8;
             protectorSeleccionado = null;
@@ -303,7 +303,7 @@
                 if (debugIsActive) { console.log('method: clearCanvasSinProtectores()') }
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 dibujarPaisaje();
-                dibujarPirata(pirata="assets/travel-bag1.png")
+                dibujarPirata(pirata="assets/loro1.png")
                 dibujarMonedero()
             }
 
@@ -373,19 +373,18 @@
             function onCanvasClick(e){
                 manageIfWasClickOnBloqueador(e.clientX, e.clientY);
                 manageIfWasClickOnPirata(e.clientX, e.clientY);
-                if (cantidadErrores >= 6) {
-                    alert("PERDISTE, ENTRENA MAS!")
-                    setTimeout(function(){
-                        window.location.replace("cognado-coleccionista-hojas-entrenamiento.html");
-                    }, 2000);
-                } 
                 if (cantidadAciertos >= 6) {
                     fechaFin = getCompleteDate()
                     setTimeout(function(){
-                        window.location.replace("cognado-mundo-sombrillas-entrenamiento.html"+buildPathParams());
+                        window.location.replace("cognado-coleccionista-hojas-entrenamiento.html"+buildPathParams());
                     }, 2000);
                 }
-                
+                if (cantidadErrores >= 6) {
+                    alert("PERDISTE, ENTRENA MAS!")
+                    setTimeout(function(){
+                        window.location.replace("cognado-loro-entrenamiento.html"+buildPathParams());
+                    }, 2000);
+                } 
             }
 
             function manageIfWasClickOnBloqueador(clickX, clickY) {
@@ -500,7 +499,7 @@
             function moverPirata(){
                 if (debugIsActive) { console.log("moverPirata") }
                 dibujarIslaSinPirata()
-                var imagenesPirata = Array("travel-bag1.png", "travel-bag2.png", "travel-bag1.png");
+                var imagenesPirata = Array("loro1.png", "loro2.png", "loro1.png");
                 var pirataElegido = imagenesPirata[Math.floor(Math.random()*imagenesPirata.length)];
                 if (debugIsActive) { console.log("pirataElegido:", pirataElegido) }
                 dibujarPirata(imagenPirata='assets/'+pirataElegido)
@@ -550,7 +549,7 @@
                 readAndLoadUserDataFromUrl();
                 cargarCognadoParaTarea();
                 dibujarPaisaje();
-                dibujarPirata(pirata="assets/travel-bag1.png")
+                dibujarPirata(pirata="assets/loro1.png")
                 dibujarMonedero();
                 dibujarProtectores();
                 setInterval(moverPirata, 2000);
@@ -561,7 +560,7 @@
                 canvas.height = window.innerHeight
                 draw(canvas)
                 dibujarPaisaje();
-                dibujarPirata(pirata="assets/travel-bag1.png")
+                dibujarPirata(pirata="assets/loro1.png")
             })
 
             canvas.addEventListener("click", onCanvasClick);

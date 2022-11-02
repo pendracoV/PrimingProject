@@ -3,10 +3,10 @@
     <body>
         <div hidden>
             <!-- Precargue de imagenes para aumentar performance -->
-            <img id="paisaje" src="assets/cementerio-noche.png" />
-            <img id="pirata" src="assets/dragon1.png" />
-            <img id="pirata2" src="assets/dragon2.png" />
-            <img id="pirata3" src="assets/dragon1.png" />
+            <img id="paisaje" src="assets/bosque.png" />
+            <img id="pirata" src="assets/loro1.png" />
+            <img id="pirata2" src="assets/loro2.png" />
+            <img id="pirata3" src="assets/loro1.png" />
         </div>
 
         <div style="text-align: center;">
@@ -167,7 +167,7 @@
                 concha.onload = function() {
                     ctx.drawImage(concha, conchaX, conchaY);
                 }
-                concha.src = "assets/roca.png"
+                concha.src = "assets/rama.png"
             }
 
             function dibujarIslaSinPirata() {
@@ -188,7 +188,7 @@
                         setTimeout(function(){
                             playSound("assets/sonidos-pirata/muy-bien-protejamonos-del-sol.mp3");
                             setTimeout(function(){
-                                window.location.replace("cognado-castillo-dragones-tarea.html"+buildPathParams());
+                                window.location.replace("cognado-loro-tarea.html"+buildPathParams());
                             }, 2000);
                         }, 2000);
                     }
@@ -265,7 +265,7 @@
                 fechaInicio = getCompleteDate()
                 readAndLoadUserDataFromUrl()
                 dibujarPaisaje();
-                dibujarPirata(pirata="assets/dragon1.png")
+                dibujarPirata(pirata="assets/loro1.png")
                 dibujarConcha();
                 seleccionarCognadoParaEntrenar();
             }
@@ -275,7 +275,7 @@
                 canvas.height = window.innerHeight
                 draw(canvas)
                 dibujarPaisaje();
-                dibujarPirata(pirata="assets/dragon1.png")
+                dibujarPirata(pirata="assets/loro1.png")
                 dibujarConcha();
             })
 

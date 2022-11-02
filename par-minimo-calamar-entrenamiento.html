@@ -3,7 +3,10 @@
     <body>
         <div hidden>
             <!-- Precargue de imagenes para aumentar performance -->
-            <img id="paisaje" src="assets/paisaje.png" />
+            <img id="paisaje" src="assets/playa.jpg" />
+            <img id="pirata" src="assets/barco1.png" />
+            <img id="pirata2" src="assets/barco2.png" />
+            <img id="pirata3" src="assets/barco1.png" />
         </div>
 
         <div style="text-align: center;">
@@ -13,7 +16,7 @@
         </div>
 
         <script>
-            // Globales
+            // User Data
             const debugIsActive = false;
             var studentName = "";
             var age = "";
@@ -28,6 +31,103 @@
             var fechaInicio = '';
             var fechaFin = '';
 
+            // Globales
+            var cognadoElegidoParaEntrenar = null;
+            var contadorClicksSobreBloqueador = 0;
+
+            var paresMinimos = [
+            {
+                id: 1,
+                nombre: "BEE_PEA",
+                sonidoCorrecto: "assets/pares-minimos/1-BEE.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/1-PEA.mp3"
+            },
+            {
+                id: 2,
+                nombre: "BARK_PARK",
+                sonidoCorrecto: "assets/pares-minimos/2-BARK.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/2-PARK.mp3"
+            },
+            {
+                id: 3,
+                nombre: "PEN_TEN",
+                sonidoCorrecto: "assets/pares-minimos/3-PEN.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/3-TEN.mp3"
+            },
+            {
+                id: 4,
+                nombre: "DIG_PIG",
+                sonidoCorrecto: "assets/pares-minimos/4-DIG.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/4-PIG.mp3"
+            },
+            {
+                id: 5,
+                nombre: "BOY_TOY",
+                sonidoCorrecto: "assets/pares-minimos/5-BOY.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/5-TOY.mp3"
+            },
+            {
+                id: 6,
+                nombre: "BUY_TIE",
+                sonidoCorrecto: "assets/pares-minimos/6-BUY.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/6-TIE.mp3"
+            },
+            {
+                id: 7,
+                nombre: "BIN_TIN",
+                sonidoCorrecto: "assets/pares-minimos/7-BIN.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/7-TIN.mp3"
+            },
+            {
+                id: 8,
+                nombre: "BALL_TALL",
+                sonidoCorrecto: "assets/pares-minimos/8-BALL.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/8-TALL.mp3"
+            },
+            {
+                id: 9,
+                nombre: "BEEP_DEEP",
+                sonidoCorrecto: "assets/pares-minimos/9-BEEP.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/9-DEEP.mp3"
+            },
+            {
+                id: 10,
+                nombre: "BAG_GAG",
+                sonidoCorrecto: "assets/pares-minimos/10-BAG.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/10-GAG.mp3"
+            },
+            {
+                id: 11,
+                nombre: "BOLD_GOLD",
+                sonidoCorrecto: "assets/pares-minimos/11-BOLD.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/11-GOLD.mp3"
+            },
+            {
+                id: 12,
+                nombre: "BAN_VAN",
+                sonidoCorrecto: "assets/pares-minimos/12-BAN.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/12-VAN.mp3"
+            },
+            {
+                id: 13,
+                nombre: "BUN_SUN",
+                sonidoCorrecto: "assets/pares-minimos/13-BUN.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/13-SUN.mp3"
+            },
+            {
+                id: 14,
+                nombre: "BACK_SACK",
+                sonidoCorrecto: "assets/pares-minimos/14-BACK.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/14-SACK.mp3"
+            },
+            {
+                id: 15,
+                nombre: "DEAD_RED",
+                sonidoCorrecto: "assets/pares-minimos/15-DEAD.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/15-RED.mp3"
+            }
+            ];
+
             // Configuracion del canvas
             const draw = (canvas) => {
                 const ctx = canvas.getContext("2d");
@@ -37,6 +137,9 @@
             var ctx = canvas.getContext("2d");
             canvas.height = window.innerHeight
             canvas.width = window.innerWidth
+
+            const protectorX = canvas.getBoundingClientRect().width / 2;
+            const protectorY = canvas.getBoundingClientRect().height * 60 / 100;
 
             // Dibujos
             function dibujarPaisaje(){
@@ -49,8 +152,53 @@
                 new Audio(sound).play();
             }
 
+            function dibujarPirata(imagenPirata=''){
+                pirata = new Image()
+                pirata.onload = function() {
+                    const pirataX = canvas.getBoundingClientRect().width / 2;
+                    const pirataY = canvas.getBoundingClientRect().height * 10 / 100;
+                    ctx.drawImage(pirata, pirataX, pirataY);
+                }
+                pirata.src = imagenPirata
+            }
+
+            function dibujarProtectorSolar(){
+                protector = new Image()
+                protector.onload = function() {
+                    ctx.drawImage(protector, protectorX, protectorY);
+                }
+                protector.src = "assets/calamar.png"
+            }            
+
+            function dibujarIslaSinPirata() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                dibujarPaisaje();
+            }
+
             function onCanvasClick(e){
-                // 
+                if(clickOnBloqueador(e.clientX, e.clientY)) {
+                    contadorClicksSobreBloqueador += 1;
+                    playSound(cognadoElegidoParaEntrenar.sonidoCorrecto);
+                    if (contadorClicksSobreBloqueador == 5) {
+                        setTimeout(function(){
+                            playSound("assets/sonidos-pirata/ya-casi-estas-listo.mp3");
+                        }, 1000);
+                    }
+                    if (contadorClicksSobreBloqueador == 10) {
+                        setTimeout(function(){
+                            playSound("assets/sonidos-pirata/muy-bien-protejamonos-del-sol.mp3");
+                            setTimeout(function(){
+                                window.location.replace("par-minimo-calamar-tarea.html"+buildPathParams());
+                            }, 2000);
+                        }, 2000);
+                    }
+                }
+            }
+
+            function clickOnBloqueador(clickX, clickY) {
+                //                                        5%                                          20%
+                return clickX > protectorX && clickX < protectorX + (protectorX*18/100)  
+                    && clickY > protectorY - (protectorY*5/100)  && clickY < protectorY + (protectorY*30/100)
             }
 
             function dibujarCoins(){
@@ -69,8 +217,18 @@
                 coin.src = imagen_moneda;
             }
 
+            function seleccionarCognadoParaEntrenar() {
+                random = Math.floor(Math.random() * paresMinimos.length)
+                cognadoElegidoParaEntrenar = paresMinimos[random]
+            }
+
             function buildPathParams(){
-                return "?studentName="+studentName+"&age="+age+"&level="+level+"&school="+school+"&schedule="+schedule;
+                return "?studentName="+studentName
+                      +"&age="+age
+                      +"&level="+level
+                      +"&school="+school
+                      +"&schedule="+schedule
+                      +"&cognadoId="+cognadoElegidoParaEntrenar.id;
             }
             
             function getURLParameter(sParam){
@@ -107,6 +265,9 @@
                 fechaInicio = getCompleteDate()
                 readAndLoadUserDataFromUrl()
                 dibujarPaisaje();
+                dibujarPirata(pirata="assets/barco1.png")
+                dibujarProtectorSolar();
+                seleccionarCognadoParaEntrenar();
             }
 
             window.addEventListener('resize', () => {
@@ -114,6 +275,8 @@
                 canvas.height = window.innerHeight
                 draw(canvas)
                 dibujarPaisaje();
+                dibujarPirata(pirata="assets/barco1.png")
+                dibujarProtectorSolar();
             })
 
             canvas.addEventListener("click", onCanvasClick);
