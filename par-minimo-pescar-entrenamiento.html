@@ -4,9 +4,9 @@
         <div hidden>
             <!-- Precargue de imagenes para aumentar performance -->
             <img id="paisaje" src="assets/mar.jpg" />
-            <img id="pirata" src="assets/ola1.png" />
-            <img id="pirata2" src="assets/ola2.png" />
-            <img id="pirata3" src="assets/ola1.png" />
+            <img id="pirata" src="assets/cana-pescar1.png" />
+            <img id="pirata2" src="assets/cana-pescar2.png" />
+            <img id="pirata3" src="assets/cana-pescar1.png" />
         </div>
 
         <div style="text-align: center;">
@@ -167,7 +167,7 @@
                 protector.onload = function() {
                     ctx.drawImage(protector, protectorX, protectorY);
                 }
-                protector.src = "assets/palanca.png"
+                protector.src = "assets/gusano.png"
             }            
 
             function dibujarIslaSinPirata() {
@@ -188,7 +188,7 @@
                         setTimeout(function(){
                             playSound("assets/sonidos-pirata/muy-bien-protejamonos-del-sol.mp3");
                             setTimeout(function(){
-                                window.location.replace("par-minimo-palancas-tarea.html"+buildPathParams());
+                                window.location.replace("par-minimo-pescar-tarea.html"+buildPathParams());
                             }, 2000);
                         }, 2000);
                     }
@@ -265,7 +265,7 @@
                 fechaInicio = getCompleteDate()
                 readAndLoadUserDataFromUrl()
                 dibujarPaisaje();
-                dibujarPirata(pirata="assets/ola1.png")
+                dibujarPirata(pirata="assets/cana-pescar1.png")
                 dibujarProtectorSolar();
                 seleccionarCognadoParaEntrenar();
             }
@@ -275,7 +275,7 @@
                 canvas.height = window.innerHeight
                 draw(canvas)
                 dibujarPaisaje();
-                dibujarPirata(pirata="assets/ola1.png")
+                dibujarPirata(pirata="assets/cana-pescar1.png")
                 dibujarProtectorSolar();
             })
 
