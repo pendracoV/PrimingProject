@@ -3,7 +3,7 @@
     <body>
         <div hidden>
             <!-- Precargue de imagenes para aumentar performance -->
-            <img id="paisaje" src="assets/comedor.webp" />
+            <img id="paisaje" src="assets/playa.jpg" />
         </div>
 
         <div style="text-align: center;">
@@ -13,8 +13,15 @@
         </div>
 
         <script>
+            const IMAGEN_CARNE         = "assets/tesoro1.png"
+            const IMAGEN_HUEVO         = "assets/tesoro2.png"
+            const IMAGEN_PANCAKE       = "assets/tesoro3.png";
+            const NEXT_PAGE_ON_FAILED  = "par-minimo-reparar-escaleras-entrenamiento.html";
+
+            const imagenSaleroDefault  = "assets/iman.png";
+
             // Globales
-            const debugIsActive = false;
+            const debugIsActive = true;
             var studentName = "";
             var age = "";
             var level = "";
@@ -53,7 +60,6 @@
             canvas.height = window.innerHeight
             canvas.width = window.innerWidth
 
-            const imagenSaleroDefault = "assets/salero.png";
 
             /**
             * Pares Minimos 
@@ -405,7 +411,7 @@
                     alert("PERDISTE, ENTRENA MAS!");
                     fechaFin = getCompleteDate();
                     setTimeout(function(){
-                        window.location.replace("par-minimo-desayuno-entrenamiento.html"+buildPathParams());
+                        window.location.replace(NEXT_PAGE_ON_FAILED+buildPathParams());
                     }, 2000);
                 }
             }
@@ -434,7 +440,10 @@
 
 
             function eliminarSaleroPorId(id) {
+                if (debugIsActive) { console.log('method: eliminarSaleroPorId('+id+')') }
+                if (debugIsActive) { console.log('saleros antes', saleros) }
                 saleros = saleros.filter(salero => salero.id != id);
+                if (debugIsActive) { console.log('saleros despues', saleros) }
             }
 
             function asignoSaleroCorrectamenteACarne(){
@@ -534,7 +543,7 @@
                         canvas.getBoundingClientRect().height  * 60/100
                     );
                 };
-                carne.src = "assets/carne.png";
+                carne.src = IMAGEN_CARNE;
             }
 
             function dibujarHuevos(){
@@ -546,7 +555,7 @@
                         canvas.getBoundingClientRect().height  * 60/100
                     );
                 };
-                huevo.src = "assets/huevo_frito.png";
+                huevo.src = IMAGEN_HUEVO;
             }
 
             function dibujarPancakes(){
@@ -558,7 +567,7 @@
                         canvas.getBoundingClientRect().height  * 60/100
                     );
                 };
-                pancake.src = "assets/pancakes.png";
+                pancake.src = IMAGEN_PANCAKE;
             }
 
 

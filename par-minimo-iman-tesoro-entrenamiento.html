@@ -3,7 +3,7 @@
     <body>
         <div hidden>
             <!-- Precargue de imagenes para aumentar performance -->
-            <img id="paisaje" src="assets/comedor.webp" />
+            <img id="paisaje" src="assets/playa.jpg" />
         </div>
 
         <div style="text-align: center;">
@@ -13,9 +13,10 @@
         </div>
 
         <script>
-            const IMAGEN_CARNE   = "assets/carne.png"
-            const IMAGEN_HUEVO   = "assets/huevo_frito.png"
-            const IMAGEN_PANCAKE = "assets/pancakes.png";
+            const IMAGEN_CARNE         = "assets/tesoro1.png"
+            const IMAGEN_HUEVO         = "assets/tesoro2.png"
+            const IMAGEN_PANCAKE       = "assets/tesoro3.png";
+            const NEXT_PAGE_ON_SUCCESS = "par-minimo-iman-tesoro-tarea.html"
 
             // Globales
             const debugIsActive = false;
@@ -183,7 +184,7 @@
                     console.log(params)
                     alert("muy bien, preparemos la comida");
                     setTimeout(function(){
-                        window.location.replace("par-minimo-desayuno-tarea.html"+params);
+                        window.location.replace(NEXT_PAGE_ON_SUCCESS+params);
                     }, 2000);
                 }
 

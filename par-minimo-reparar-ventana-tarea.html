@@ -3,7 +3,7 @@
     <body>
         <div hidden>
             <!-- Precargue de imagenes para aumentar performance -->
-            <img id="paisaje" src="assets/comedor.webp" />
+            <img id="paisaje" src="assets/muro.jpg" />
         </div>
 
         <div style="text-align: center;">
@@ -13,6 +13,13 @@
         </div>
 
         <script>
+            const IMAGEN_CARNE         = "assets/ventana1.png";
+            const IMAGEN_HUEVO         = "assets/ventana2.png";
+            const IMAGEN_PANCAKE       = "assets/ventana3.png";
+            const NEXT_PAGE_ON_FAILED  = "par-minimo-reparar-ventana-entrenamiento.html";
+
+            const imagenSaleroDefault  = "assets/pistola-de-silicona.png";
+
             // Globales
             const debugIsActive = false;
             var studentName = "";
@@ -53,7 +60,6 @@
             canvas.height = window.innerHeight
             canvas.width = window.innerWidth
 
-            const imagenSaleroDefault = "assets/salero.png";
 
             /**
             * Pares Minimos 
@@ -405,7 +411,7 @@
                     alert("PERDISTE, ENTRENA MAS!");
                     fechaFin = getCompleteDate();
                     setTimeout(function(){
-                        window.location.replace("par-minimo-desayuno-entrenamiento.html"+buildPathParams());
+                        window.location.replace(NEXT_PAGE_ON_FAILED+buildPathParams());
                     }, 2000);
                 }
             }
@@ -534,7 +540,7 @@
                         canvas.getBoundingClientRect().height  * 60/100
                     );
                 };
-                carne.src = "assets/carne.png";
+                carne.src = IMAGEN_CARNE;
             }
 
             function dibujarHuevos(){
@@ -546,7 +552,7 @@
                         canvas.getBoundingClientRect().height  * 60/100
                     );
                 };
-                huevo.src = "assets/huevo_frito.png";
+                huevo.src = IMAGEN_HUEVO;
             }
 
             function dibujarPancakes(){
@@ -558,7 +564,7 @@
                         canvas.getBoundingClientRect().height  * 60/100
                     );
                 };
-                pancake.src = "assets/pancakes.png";
+                pancake.src = IMAGEN_PANCAKE;
             }
 
 
