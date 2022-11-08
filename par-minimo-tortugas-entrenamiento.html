@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div hidden>
+            <!-- Precargue de imagenes para aumentar performance -->
+            <img id="paisaje" src="assets/playa.jpg" />
+        </div>
+
+        <div style="text-align: center;">
+            <canvas id="canvas" style="border:1px solid #d3d3d3;">
+                Tu navegador no soporta este video Juego. Deber actualizar el navegador o usar otro.
+            </canvas>
+        </div>
+
+        <script>
+            const IMAGEN_CARNE         = "assets/rio1.png"
+            const IMAGEN_HUEVO         = "" // Comentado para dejar solo 2 objetivos.
+            const IMAGEN_PANCAKE       = "assets/rio2.png";
+            const NEXT_PAGE_ON_SUCCESS = "par-minimo-tortugas-tarea.html"
+
+            // Globales
+            const debugIsActive = false;
+            var studentName = "";
+            var age = "";
+            var level = "";
+            var school= "";
+            var schedule = "";
+
+            // Analiticas del juego
+            var cantidadErrores = 0;
+            var cantidadAciertos = 0;
+            var cantidadIntentos = 0;
+            var fechaInicio = '';
+            var fechaFin = '';
+
+            // Configuracion del canvas
+            const draw = (canvas) => {
+                const ctx = canvas.getContext("2d");
+            }
+
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+            canvas.height = window.innerHeight
+            canvas.width = window.innerWidth
+
+
+            // Contadores
+            contadorClickOnCarne = 0;
+            contadorClickOnHuevo = 0;
+            contadorClickOnPancakes = 0;
+
+            var parMinimoSeleccionadoParaCarne = null;
+            // var parMinimoSeleccionadoParaHuevo = null;
+            var parMinimoSeleccionadoParaPancakes = null;
+
+            /**
+            * Pares Minimos 
+            */  
+            var paresMinimos = [
+            {
+                id: 1,
+                nombre: "BEE_PEA",
+                sonidoCorrecto: "assets/pares-minimos/1-BEE.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/1-PEA.mp3"
+            },
+            {
+                id: 2,
+                nombre: "BARK_PARK",
+                sonidoCorrecto: "assets/pares-minimos/2-BARK.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/2-PARK.mp3"
+            },
+            {
+                id: 3,
+                nombre: "PEN_TEN",
+                sonidoCorrecto: "assets/pares-minimos/3-PEN.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/3-TEN.mp3"
+            },
+            {
+                id: 4,
+                nombre: "DIG_PIG",
+                sonidoCorrecto: "assets/pares-minimos/4-DIG.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/4-PIG.mp3"
+            },
+            {
+                id: 5,
+                nombre: "BOY_TOY",
+                sonidoCorrecto: "assets/pares-minimos/5-BOY.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/5-TOY.mp3"
+            },
+            {
+                id: 6,
+                nombre: "BUY_TIE",
+                sonidoCorrecto: "assets/pares-minimos/6-BUY.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/6-TIE.mp3"
+            },
+            {
+                id: 7,
+                nombre: "BIN_TIN",
+                sonidoCorrecto: "assets/pares-minimos/7-BIN.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/7-TIN.mp3"
+            },
+            {
+                id: 8,
+                nombre: "BALL_TALL",
+                sonidoCorrecto: "assets/pares-minimos/8-BALL.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/8-TALL.mp3"
+            },
+            {
+                id: 9,
+                nombre: "BEEP_DEEP",
+                sonidoCorrecto: "assets/pares-minimos/9-BEEP.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/9-DEEP.mp3"
+            },
+            {
+                id: 10,
+                nombre: "BAG_GAG",
+                sonidoCorrecto: "assets/pares-minimos/10-BAG.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/10-GAG.mp3"
+            },
+            {
+                id: 11,
+                nombre: "BOLD_GOLD",
+                sonidoCorrecto: "assets/pares-minimos/11-BOLD.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/11-GOLD.mp3"
+            },
+            {
+                id: 12,
+                nombre: "BAN_VAN",
+                sonidoCorrecto: "assets/pares-minimos/12-BAN.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/12-VAN.mp3"
+            },
+            {
+                id: 13,
+                nombre: "BUN_SUN",
+                sonidoCorrecto: "assets/pares-minimos/13-BUN.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/13-SUN.mp3"
+            },
+            {
+                id: 14,
+                nombre: "BACK_SACK",
+                sonidoCorrecto: "assets/pares-minimos/14-BACK.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/14-SACK.mp3"
+            },
+            {
+                id: 15,
+                nombre: "DEAD_RED",
+                sonidoCorrecto: "assets/pares-minimos/15-DEAD.mp3",
+                sonidoIncorrecto: "assets/pares-minimos/15-RED.mp3"
+            }
+            ];
+
+
+            // Dibujos
+            function dibujarPaisaje(){
+                if (debugIsActive) { console.log('method: dibujarPaisaje()') }
+                var isla = document.getElementById("paisaje");
+                ctx.drawImage(isla, 0, 0, canvas.width, canvas.height);
+            }
+
+            function playSound(sound='') {
+                new Audio(sound).play();
+            }
+
+            function onCanvasClick(e){
+                if (clickOnMeat(e.clientX, e.clientY)) {
+                    contadorClickOnCarne += 1;
+                    playSound(parMinimoSeleccionadoParaCarne.sonidoCorrecto)
+                }
+                /**if (clickOnHuevo(e.clientX, e.clientY)) {
+                    contadorClickOnHuevo += 1;
+                    playSound(parMinimoSeleccionadoParaHuevo.sonidoCorrecto)
+                }*/
+                if (clickOnPancakes(e.clientX, e.clientY)) {
+                    contadorClickOnPancakes += 1;
+                    playSound(parMinimoSeleccionadoParaPancakes.sonidoCorrecto)
+                }
+
+                // if (contadorClickOnCarne + contadorClickOnHuevo + contadorClickOnPancakes == 5) {
+                if (contadorClickOnCarne + contadorClickOnPancakes == 10) {
+                    alert("Ya casi estas listo!");
+                }
+
+                // if (contadorClickOnCarne >= 3 && contadorClickOnHuevo >= 3 && contadorClickOnPancakes >= 3) {
+                if (contadorClickOnCarne >= 5 && contadorClickOnPancakes >= 5) {
+                    const params = buildPathParams()
+                    alert("muy bien, preparemos la comida");
+                    setTimeout(function(){
+                        window.location.replace(NEXT_PAGE_ON_SUCCESS+params);
+                    }, 2000);
+                }
+
+            }
+
+            function clickOnMeat(clickX, clickY) {
+                const ancho = canvas.getBoundingClientRect().width;
+                const alto = canvas.getBoundingClientRect().height;
+                return clickX < ancho * 50/100 && clickX > ancho * 5/100
+                    && clickY > alto * 50/100 && clickY < alto * 80/100;
+            }
+
+            /**
+            function clickOnHuevo(clickX, clickY) {
+                const ancho = canvas.getBoundingClientRect().width;
+                const alto = canvas.getBoundingClientRect().height;
+                return clickX < ancho * 66/100 && clickX > ancho * 33/100
+                    && clickY > alto * 50/100 && clickY < alto * 80/100;
+            }
+            */
+
+
+            function clickOnPancakes(clickX, clickY) {
+                const ancho = canvas.getBoundingClientRect().width;
+                const alto = canvas.getBoundingClientRect().height;
+                return clickX < ancho * 95/100 && clickX > ancho * 50/100
+                    && clickY > alto * 50/100 && clickY < alto * 80/100;
+            }
+
+            function dibujarCoins(){
+                if (debugIsActive) { console.log('method: dibujarCoins()') }
+                onWonCoins()
+                coin = new Image();
+                coin.onload = function() {
+                    ctx.drawImage(coin, canvas.getBoundingClientRect().width - 100, 50);
+                };
+                imagen_moneda = '';
+                if (ganoMonedas) {
+                    imagen_moneda = 'assets/coins+10.png';
+                } else {
+                    imagen_moneda = 'assets/coins-10.png';
+                }
+                coin.src = imagen_moneda;
+            }
+
+            function buildPathParams(){
+                const dataUser = "?studentName="+studentName+"&age="+age+"&level="+level+"&school="+school+"&schedule="+schedule
+                // const dataParMinimo = "&idparminimoparacarne="+parMinimoSeleccionadoParaCarne.id+"&idparminimoparahuevo="+parMinimoSeleccionadoParaHuevo.id+"&idparminimoparapancakes="+parMinimoSeleccionadoParaPancakes.id;
+                const dataParMinimo = "&idparminimoparacarne="+parMinimoSeleccionadoParaCarne.id+"&idparminimoparapancakes="+parMinimoSeleccionadoParaPancakes.id;
+                return dataUser+dataParMinimo
+            }
+            
+            function getURLParameter(sParam){
+                var sPageURL = window.location.search.substring(1);
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++) {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] == sParam) {
+                        return sParameterName[1];
+                    }
+                }
+            }
+
+            function readAndLoadUserDataFromUrl() {
+                studentName = getURLParameter('studentName');
+                age = getURLParameter('age');
+                level = getURLParameter('level');
+                school = getURLParameter('school');
+                schedule = getURLParameter('schedule');
+            }
+
+            function getCompleteDate(){
+                return new Date();
+            }
+
+            function dibujarCarne() {
+                carne = new Image();
+                carne.onload = function() {
+                    ctx.drawImage(
+                        carne, 
+                        canvas.getBoundingClientRect().width / 8, 
+                        canvas.getBoundingClientRect().height  * 60/100
+                    );
+                };
+                carne.src = IMAGEN_CARNE;
+            }
+
+            function dibujarHuevos(){
+                huevo = new Image();
+                huevo.onload = function() {
+                    ctx.drawImage(
+                        huevo,
+                        canvas.getBoundingClientRect().width * 45/100, 
+                        canvas.getBoundingClientRect().height  * 60/100
+                    );
+                };
+                huevo.src = IMAGEN_HUEVO;
+            }
+
+            function dibujarPancakes(){
+                pancake = new Image();
+                pancake.onload = function() {
+                    ctx.drawImage(
+                        pancake,
+                        canvas.getBoundingClientRect().width * 80/100, 
+                        canvas.getBoundingClientRect().height  * 60/100
+                    );
+                };
+                pancake.src = IMAGEN_PANCAKE;
+            }
+
+
+            function elegirParesMinimosParaEntrenar() {
+                var random = Math.floor(Math.random() * paresMinimos.length)
+                parMinimoSeleccionadoParaCarne = paresMinimos[random]
+                eliminarParMinimoPorId(parMinimoSeleccionadoParaCarne.id)
+
+                // random = Math.floor(Math.random() * paresMinimos.length)
+                // parMinimoSeleccionadoParaHuevo = paresMinimos[random]
+                // eliminarParMinimoPorId(parMinimoSeleccionadoParaHuevo.id)
+
+                random = Math.floor(Math.random() * paresMinimos.length)
+                parMinimoSeleccionadoParaPancakes = paresMinimos[random]
+                eliminarParMinimoPorId(parMinimoSeleccionadoParaPancakes.id)
+            }
+
+            function eliminarParMinimoPorId(id) {
+                paresMinimos = paresMinimos.filter(parMinimo => parMinimo.id != id);
+            }
+
+            // Eventos de window
+            window.onload = function() {
+                fechaInicio = getCompleteDate()
+                readAndLoadUserDataFromUrl()
+                dibujarPaisaje();
+                dibujarCarne();
+                // dibujarHuevos();
+                dibujarPancakes();
+                elegirParesMinimosParaEntrenar();
+            }
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth
+                canvas.height = window.innerHeight
+                draw(canvas)
+                dibujarPaisaje();
+                dibujarCarne();
+                // dibujarHuevos();
+                dibujarPancakes();
+            })
+
+            canvas.addEventListener("click", onCanvasClick);
+
+        </script>
+
+    </body>
+</html>
