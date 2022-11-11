@@ -398,8 +398,9 @@
             function validarAciertosErrores() {
                 if (cantidadAciertos >= 6) {
                     fechaFin = getCompleteDate();
-                    // REdireccionar a siguiente tarea.
-                    alert("Vamos a siguiente tarea.")
+                    setTimeout(function(){
+                        window.location.replace("par-minimo-reparar-ventana-entrenamiento.html"+buildPathParams());
+                    }, 2000);
                 }
                 if (cantidadErrores >= 6) {
                     alert("PERDISTE, ENTRENA MAS!");

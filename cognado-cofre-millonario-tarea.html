@@ -16,7 +16,7 @@
             const IMAGEN_CARNE         = "assets/cofre-vacio2.png";
             const IMAGEN_HUEVO         = "" // Comentado para dejar solo 2 objetivos.
             const IMAGEN_PANCAKE       = "assets/cofre-vacio3.png";
-            const NEXT_PAGE_ON_FAILED  = "par-minimo-reparar-barco-entrenamiento.html";
+            const NEXT_PAGE_ON_FAILED  = "cognado-cofre-millonario-entrenamiento.html";
 
             const imagenSaleroDefault  = "assets/moneda_oro.png";
 
@@ -416,8 +416,9 @@
             function validarAciertosErrores() {
                 if (cantidadAciertos >= 6) {
                     fechaFin = getCompleteDate();
-                    // REdireccionar a siguiente tarea.
-                    alert("Vamos a siguiente tarea.")
+                    setTimeout(function(){
+                        window.location.replace("cognado-guardian-medio-ambiente-entrenamiento.html"+buildPathParams());
+                    }, 2000);
                 }
                 if (cantidadErrores >= 6) {
                     alert("PERDISTE, ENTRENA MAS!");

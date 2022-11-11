@@ -424,17 +424,18 @@
             function onCanvasClick(e){
                 manageIfClickOnFish(e.clientX, e.clientY);
                 manageIfClickOnCrocodile(e.clientX, e.clientY)
-                if (cantidadAciertos >= 6) {
+                if (cantidadAciertos >= 2) {
                     fechaFin = getCompleteDate();
+                    sendAnalytics('TAREA', 'GANO');
                     setTimeout(function(){
-                        window.location.replace("entrenamiento2.html"+buildPathParams());
+                        window.location.replace("cognado-identificando-serpiente-entrenamiento.html"+buildPathParams());
                     }, 2000);
                 }
                 if (cantidadErrores >= 6) {
-                    alert("PERDISTE, ENTRENA MAS!");
                     fechaFin = getCompleteDate();
+                    sendAnalytics('TAREA', 'PERDIO');
                     setTimeout(function(){
-                        window.location.replace("entrenamiento1.html"+buildPathParams());
+                        window.location.replace("cognado-camino-del-cocodrilo-entrenamiento.html"+buildPathParams());
                     }, 2000);
                 }
             }
@@ -563,9 +564,7 @@
             }
 
 
-            function getCompleteDate(){
-                return new Date();
-            }
+            
 
             function end() {
                 endTime = new Date();
@@ -575,25 +574,31 @@
                 // get seconds 
                 return Math.round(timeDiff);
             }
-
-            function sendAnalytics(){
-                if(debugIsActive) { console.log("sendAnalytics()"); } 
-                const data = {
-                    'student_name': studentName,
-                    'age': age,
-                    'level': level,
-                    'school': school,
-                    'schedule': schedule,
-                    'cantidad_errores': cantidadErrores,
-                    'cantidad_aciertos': cantidadAciertos,
-                    'fecha_inicio': fechaInicio,
-                    'fecha_fin': fecha_fin,
-                    'voice_genre': 'F',
-                    'cognado': cognadoSeleccionado.nombre
-                };
-                if(debugIsActive) { console.log(data); }
-
+            
+            function getCompleteDate(){
+                return new Date().toLocaleString().replace(",","").replace(" ","/")
             }
+
+            function sendAnalytics(taskOrTraining='', wonOrLost=''){
+                if(debugIsActive) { console.log("sendAnalytics()"); }
+                const dataStudent = studentName + ',' + age + ',' + level + ',' + school + ',' + schedule
+                const dataSession = cantidadErrores + ',' + cantidadAciertos + ',' + fechaInicio + ',' + fechaFin
+                const dataMonedas = monedasGanadas
+                const dataPriming = taskOrTraining + ',' + 'COGNADO' + ',' + cognadoSeleccionado.nombre  + ',' + wonOrLost
+                const dataVoice   = 'MALE';
+                const dataToSend  = dataStudent + ',' + dataSession + ',' + dataPriming  + ',' + dataMonedas + ',' + dataVoice
+                
+                fetch('https://analytics-cfkskarc2a-uc.a.run.app/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'concatenado': dataToSend
+                    })
+                });
+            }
+
 
             canvas.addEventListener("click", onCanvasClick);
             window.addEventListener('resize', () => {
