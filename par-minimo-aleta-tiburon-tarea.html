@@ -379,16 +379,35 @@
                 manageIfWasClickOnPirata(e.clientX, e.clientY);
                 if (cantidadAciertos >= 6) {
                     fechaFin = getCompleteDate()
+                    sendAnalytics('TAREA', 'GANO', 'PARMINIMO');
                     setTimeout(function(){
                         window.location.replace("par-minimo-algas-entrenamiento.html"+buildPathParams());
                     }, 2000);
                 }
                 if (cantidadErrores >= 6) {
                     alert("PERDISTE, ENTRENA MAS!")
+                    fechaFin = getCompleteDate()
+                    sendAnalytics('TAREA', 'PERDIO', 'PARMINIMO');
                     setTimeout(function(){
                         window.location.replace("par-minimo-aleta-tiburon-entrenamiento.html"+buildPathParams());
                     }, 2000);
                 } 
+            }
+
+            function sendAnalytics(taskOrTraining='', wonOrLost='', cognadoOrParMinimo=''){
+                if(debugIsActive) { console.log("sendAnalytics()"); }
+                const dataStudent = studentName + ',' + age + ',' + level + ',' + school + ',' + schedule
+                const dataSession = cantidadErrores + ',' + cantidadAciertos + ',' + fechaInicio + ',' + fechaFin
+                const dataMonedas = monedasGanadas
+                const dataPriming = taskOrTraining + ',' + cognadoOrParMinimo + ',' + cognadoSeleccionado.nombre  + ',' + wonOrLost
+                const dataVoice   = voiceGender;
+                const dataToSend  = dataStudent + ',' + dataSession + ',' + dataPriming  + ',' + dataMonedas + ',' + dataVoice
+                
+                fetch('https://analytics-cfkskarc2a-uc.a.run.app/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 'concatenado': dataToSend })
+                });
             }
 
             function manageIfWasClickOnBloqueador(clickX, clickY) {

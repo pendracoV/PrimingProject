@@ -379,12 +379,15 @@
                 manageIfWasClickOnPirata(e.clientX, e.clientY);
                 if (cantidadErrores >= 6) {
                     alert("PERDISTE, ENTRENA MAS!")
+                    fechaFin = getCompleteDate();
+                    sendAnalytics('TAREA', 'PERDIO', 'COGNADO');
                     setTimeout(function(){
                         window.location.replace("cognado-coleccionista-hojas-entrenamiento.html");
                     }, 2000);
                 } 
                 if (cantidadAciertos >= 6) {
                     fechaFin = getCompleteDate()
+                    sendAnalytics('TAREA', 'GANO', 'COGNADO');
                     setTimeout(function(){
                         window.location.replace("cognado-mundo-sombrillas-entrenamiento.html"+buildPathParams());
                     }, 2000);
