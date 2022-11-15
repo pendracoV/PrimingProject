@@ -30,11 +30,12 @@
             </select>
 
             <label for="schoolName"><b>Colegio:</b></label>
-            <select name="schoolName" id="schoolName">
+            <input type="text" id="schoolName" name="schoolName">
+            <!--<select name="schoolName" id="schoolName">
                 <option value="a">Colegio a</option>
                 <option value="b">Colegio b</option>
                 <option value="c">Colegio c</option>
-            </select>
+            </select>-->
 
             <label for="schedule"><b>Jornada:</b></label>
             <select name="schedule" id="schedule">
@@ -119,7 +120,7 @@
                 studentName = getValueOfInputtext("studentName")
                 age = getValueOfList("ages")
                 studentLevel = getValueOfList("studentLevels")
-                schoolName = getValueOfList("schoolName")
+                schoolName = getValueOfInputtext("schoolName") //getValueOfList("schoolName")
                 schedule = getValueOfList("schedule")
                 pathParams = "?studentName="+studentName+"&age="+age+"&level="+studentLevel+"&school="+schoolName+"&schedule="+schedule;
             }

@@ -60,102 +60,102 @@
             canvas.height = window.innerHeight
             canvas.width = window.innerWidth
 
-
-            /**
-            * Pares Minimos 
-            */  
-            var paresMinimos = [
+            var voiceGender = "";
+            var paresMinimos = [];
+            function loadCognados() {
+                paresMinimos = [
             {
                 id: 1,
                 nombre: "MANGO",
-                sonidoCorrecto: "assets/cognados/1-EN_MANGOU.mp3",
-                sonidoIncorrecto: "assets/cognados/1-ES_Mango.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/1-EN_MANGOU.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/1-ES_Mango.mp3"
             },
             {
                 id: 2,
                 nombre: "MELON",
-                sonidoCorrecto: "assets/cognados/2-EN_MELLON.mp3",
-                sonidoIncorrecto: "assets/cognados/2-ES_Melon.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/2-EN_MELLON.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/2-ES_Melon.mp3"
             },
             {
                 id: 3,
                 nombre: "GORILA",
-                sonidoCorrecto: "assets/cognados/3-EN_GORILLA.mp3",
-                sonidoIncorrecto: "assets/cognados/3-ES_Gorila.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/3-EN_GORILLA.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/3-ES_Gorila.mp3"
             },
             {
                 id: 4,
                 nombre: "COCO",
-                sonidoCorrecto: "assets/cognados/4-EN_COCONUT.mp3",
-                sonidoIncorrecto: "assets/cognados/4-ES_Coco.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/4-EN_COCONUT.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/4-ES_Coco.mp3"
             },
             {
                 id: 5,
                 nombre: "MANDARINA",
-                sonidoCorrecto: "assets/cognados/5-EN_MANDARIN.mp3",
-                sonidoIncorrecto: "assets/cognados/5-ES_Mandarina.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/5-EN_MANDARIN.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/5-ES_Mandarina.mp3"
             },
             {
                 id: 6,
                 nombre: "BANANO",
-                sonidoCorrecto: "assets/cognados/6-EN_BANANA.mp3",
-                sonidoIncorrecto: "assets/cognados/6-ES_Banano.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/6-EN_BANANA.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/6-ES_Banano.mp3"
             },
             {
                 id: 7,
                 nombre: "LIMON",
-                sonidoCorrecto: "assets/cognados/7-EN_LEMON.mp3",
-                sonidoIncorrecto: "assets/cognados/7-ES_Limon.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/7-EN_LEMON.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/7-ES_Limon.mp3"
             },
             {
                 id: 8,
                 nombre: "ELEFANTE",
-                sonidoCorrecto: "assets/cognados/8-EN_ELEPHANT.mp3",
-                sonidoIncorrecto: "assets/cognados/8-ES_Elefante.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/8-EN_ELEPHANT.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/8-ES_Elefante.mp3"
             },
             {
                 id: 9,
                 nombre: "HIPOPOTAMO",
-                sonidoCorrecto: "assets/cognados/9-EN_HIPPOPOTAMUS.mp3",
-                sonidoIncorrecto: "assets/cognados/9-ES_Hipopotamo.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/9-EN_HIPPOPOTAMUS.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/9-ES_Hipopotamo.mp3"
             },
             {
                 id: 10,
                 nombre: "DELFIN",
-                sonidoCorrecto: "assets/cognados/10-EN_DOLPHIN.mp3",
-                sonidoIncorrecto: "assets/cognados/10-ES_Delfin.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/10-EN_DOLPHIN.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/10-ES_Delfin.mp3"
             },
             {
                 id: 11,
                 nombre: "COCODRILO",
-                sonidoCorrecto: "assets/cognados/11-EN_CROCODILE.mp3",
-                sonidoIncorrecto: "assets/cognados/11-ENCocodrilo.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/11-EN_CROCODILE.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/11-ENCocodrilo.mp3"
             },
             {
                 id: 12,
                 nombre: "JIRAFA",
-                sonidoCorrecto: "assets/cognados/12-EN_GIRAFFIE.mp3",
-                sonidoIncorrecto: "assets/cognados/12-ES_Jirafa.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/12-EN_GIRAFFIE.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/12-ES_Jirafa.mp3"
             },
             {
                 id: 13,
                 nombre: "DINOSAURIO",
-                sonidoCorrecto: "assets/cognados/13-EN_DINOSAUR.mp3",
-                sonidoIncorrecto: "assets/cognados/13-ES_Dinosaurio.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/13-EN_DINOSAUR.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/13-ES_Dinosaurio.mp3"
             },
             {
                 id: 14,
                 nombre: "LEON",
-                sonidoCorrecto: "assets/cognados/14-EN_LION.mp3",
-                sonidoIncorrecto: "assets/cognados/14-ES_Leon.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/14-EN_LION.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/14-ES_Leon.mp3"
             },
             {
                 id: 15,
                 nombre: "PAPAYA",
-                sonidoCorrecto: "assets/cognados/15-EN_PAPAYA.mp3",
-                sonidoIncorrecto: "assets/cognados/15-ES_Papaya.mp3"
+                sonidoCorrecto: "assets/cognados/"+voiceGender+"/15-EN_PAPAYA.mp3",
+                sonidoIncorrecto: "assets/cognados/"+voiceGender+"/15-ES_Papaya.mp3"
             }
             ];
+        }
 
             // Saleros...
             var saleros = [
@@ -523,6 +523,8 @@
                 level = getURLParameter('level');
                 school = getURLParameter('school');
                 schedule = getURLParameter('schedule');
+                voiceGender = getURLParameter('voiceGender');
+                loadCognados();
                 parMinimoSeleccionadoParaCarne = paresMinimos[getURLParameter('idparminimoparacarne') - 1];
                 parMinimoSeleccionadoParaHuevo = paresMinimos[getURLParameter('idparminimoparahuevo') - 1];
                 parMinimoSeleccionadoParaPancakes = paresMinimos[getURLParameter('idparminimoparapancakes') - 1];
