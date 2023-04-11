@@ -196,11 +196,6 @@
         pez.src = pescado;
     }
 
-    function playIntroSound() {
-        if (debugIsActive) { console.log('method: playIntroSound()') }
-        new Audio("assets/intro_sound.mp3").play();
-    }
-
     function onWonCoins() {
         if (debugIsActive) { console.log('method: onWonCoins()') }
         new Audio("assets/coins.mp3").play();
@@ -368,6 +363,14 @@
         elegirCognadoParaEntrenar();
         var intervaloNadoPez = setInterval(nadar, 1000);
     }
+
+    var played = false;
+    canvas.addEventListener("click", () => {
+        if (!played) {
+            new Audio("assets/Reto1_cocodrilo.mp3").play();
+            played = true;
+        }
+    });
 
 </script>
 

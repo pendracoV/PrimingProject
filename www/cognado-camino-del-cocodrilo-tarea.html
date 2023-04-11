@@ -429,17 +429,23 @@
                 manageIfClickOnFish(e.clientX, e.clientY);
                 manageIfClickOnCrocodile(e.clientX, e.clientY)
                 if (cantidadAciertos >= 6) {
-                    fechaFin = getCompleteDate();
-                    sendAnalytics('TAREA', 'GANO', 'COGNADO');
+                    new Audio("assets/Reto1_cocodrilo3.mp3").play();
                     setTimeout(function(){
-                        window.location.replace("cognado-identificando-serpiente-entrenamiento.html"+buildPathParams());
-                    }, 2000);
+                        fechaFin = getCompleteDate();
+                        sendAnalytics('TAREA', 'GANO', 'COGNADO');
+                        setTimeout(function(){
+                            window.location.replace("cognado-identificando-serpiente-entrenamiento.html"+buildPathParams());
+                        }, 2000);
+                    }, 6000);
                 }
                 if (cantidadErrores >= 6) {
-                    fechaFin = getCompleteDate();
-                    sendAnalytics('TAREA', 'PERDIO', 'COGNADO');
+                    new Audio("assets/Volvamos_a_intentarlo.mp3").play();
                     setTimeout(function(){
-                        window.location.replace("cognado-camino-del-cocodrilo-entrenamiento.html"+buildPathParams());
+                        fechaFin = getCompleteDate();
+                        sendAnalytics('TAREA', 'PERDIO', 'COGNADO');
+                        setTimeout(function(){
+                            window.location.replace("cognado-camino-del-cocodrilo-entrenamiento.html"+buildPathParams());
+                        }, 2000);
                     }, 2000);
                 }
             }
@@ -492,7 +498,9 @@
 
                             cocodrilo.src = 'assets/crocodile_boca_abierta.png';
                             
-                            playSound('assets/sonido_cocodrilo_feliz.mp3')
+                            if (cantidadAciertos < 6){
+                                playSound('assets/sonido_cocodrilo_feliz.mp3')
+                            }
                             
                             setTimeout(function(){
                                 cocodriloTieneBocaAbierta = false;
@@ -512,7 +520,9 @@
                             cantidadErrores += 1;
 
                             cocodrilo.src = 'assets/crocodile_bravo.png';
-                            playSound('assets/sonido_cocodrilo_bravo.mp3')
+                            if (cantidadErrores < 6){
+                                playSound('assets/sonido_cocodrilo_bravo.mp3')
+                            }
                             
                             setTimeout(function(){
                                 cocodriloTieneBocaAbierta = false;
@@ -645,6 +655,14 @@
                 dibujarMonedero()
                 var intervaloNadoPez = setInterval(nadar, 1000);
             }
+
+            var played = false;
+            canvas.addEventListener("click", () => {
+                if (!played) {
+                    new Audio("assets/Reto1_cocodrilo2.mp3").play();
+                    played = true;
+                }
+            });
 
         </script>
 

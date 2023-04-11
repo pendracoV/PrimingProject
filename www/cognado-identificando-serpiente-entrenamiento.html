@@ -171,7 +171,16 @@
                 cognadoSeleccionado = cognados[random]
             }
 
+            var played = false;
             function onCanvasClick(e){
+                if (!played) {
+                    new Audio("assets/Reto2_serpiertes1.mp3").play();
+                    setTimeout(function(){
+                        new Audio("assets/Reto2_serpiertes2.mp3").play();
+                    }, 10000);
+                    played = true;
+                }
+
                 if (clickOnSerpiente(e.clientX, e.clientY)) {
                     // playSound("assets/sonido_serpiente_venenosa.mp3")
                     playSound(cognadoSeleccionado.sonidoCorrecto)
@@ -294,6 +303,7 @@
 
             canvas.addEventListener("click", onCanvasClick);
 
+            
         </script>
 
     </body>
