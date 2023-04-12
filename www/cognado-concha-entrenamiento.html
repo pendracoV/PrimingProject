@@ -181,7 +181,16 @@
                 dibujarPaisaje();
             }
 
+            var played = false;
             function onCanvasClick(e){
+                if (!played) {
+                    new Audio("assets/Reto3_perlaperdida1.mp3").play();
+                    setTimeout(function(){
+                        new Audio("assets/Reto3_perlaperdida2.mp3").play();
+                    }, 12000);
+                    played = true;
+                }
+
                 if(clickOnConcha(e.clientX, e.clientY)) {
                     contadorClicksSobreConcha += 1;
                     playSound(cognadoElegidoParaEntrenar.sonidoCorrecto);
@@ -192,7 +201,7 @@
                     }
                     if (contadorClicksSobreConcha == 10) {
                         setTimeout(function(){
-                            playSound("assets/sonidos-pirata/muy-bien-protejamonos-del-sol.mp3");
+                            playSound("assets/sonidos-pirata/pirata-dice-muy-bien.mp3");
                             setTimeout(function(){
                                 window.location.replace("cognado-concha-tarea.html"+buildPathParams());
                             }, 2000);
