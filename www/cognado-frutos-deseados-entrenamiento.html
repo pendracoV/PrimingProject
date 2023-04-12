@@ -181,7 +181,13 @@
                 dibujarPaisaje();
             }
 
+            var played = false;
             function onCanvasClick(e){
+                if (!played) {
+                    new Audio("assets/Reto4_alimentodeseado1.mp3").play();
+                    played = true;
+                }
+
                 if(clickOnFrutas(e.clientX, e.clientY)) {
                     contadorClicksSobreFrutas += 1;
                     playSound(cognadoElegidoParaEntrenar.sonidoCorrecto);
