@@ -384,14 +384,14 @@
                 manageIfWasClickOnBloqueador(e.clientX, e.clientY);
                 manageIfWasClickOnPirata(e.clientX, e.clientY);
                 if (cantidadAciertos >= 6) {
+                    new Audio("assets/Reto5_aguacoco_audiopirata.mp3").play();
                     setTimeout(function(){
-                        new Audio("assets/Reto5_aguacoco_audiopirata.mp3").play();
+                        fechaFin = getCompleteDate()
+                        sendAnalytics('TAREA', 'GANO', 'COGNADO');
+                        setTimeout(function(){
+                            window.location.replace("cognado-loro-entrenamiento.html"+buildPathParams());
+                        }, 2000);
                     }, 5000);
-                    fechaFin = getCompleteDate()
-                    sendAnalytics('TAREA', 'GANO', 'COGNADO');
-                    setTimeout(function(){
-                        window.location.replace("cognado-loro-entrenamiento.html"+buildPathParams());
-                    }, 2000);
                 }
                 if (cantidadErrores >= 6) {
                     new Audio("assets/Volvamos_a_intentarlo.mp3").play();

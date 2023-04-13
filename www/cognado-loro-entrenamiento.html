@@ -181,7 +181,13 @@
                 dibujarPaisaje();
             }
 
+            var played = false;
             function onCanvasClick(e){
+                if (!played) {
+                    new Audio("assets/Reto6_trepandoloro1.mp3").play();
+                    played = true;
+                }
+
                 if(clickOnConcha(e.clientX, e.clientY)) {
                     contadorClicksSobreConcha += 1;
                     playSound(cognadoElegidoParaEntrenar.sonidoCorrecto);
