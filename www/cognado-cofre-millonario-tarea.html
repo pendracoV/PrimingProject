@@ -430,7 +430,7 @@
                     }, 2000);
                 }
                 if (cantidadErrores >= 6) {
-
+                    new Audio("assets/Volvamos_a_intentarlo.mp3").play();
                     fechaFin = getCompleteDate();
                     sendAnalytics('TAREA', 'PERDIO', 'COGNADO');
                     setTimeout(function(){
