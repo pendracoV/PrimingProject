@@ -383,7 +383,7 @@
 
                 manageIfWasClickOnBloqueador(e.clientX, e.clientY);
                 manageIfWasClickOnPirata(e.clientX, e.clientY);
-                if (cantidadErrores >= 6) {
+                if (cantidadErrores == 6) {
                     new Audio("assets/Volvamos_a_intentarlo.mp3").play();
                     fechaFin = getCompleteDate();
                     sendAnalytics('TAREA', 'PERDIO', 'COGNADO');
@@ -391,7 +391,7 @@
                         window.location.replace("cognado-cobijas-entrenamiento.html");
                     }, 2000);
                 } 
-                if (cantidadAciertos >= 6) {
+                if (cantidadAciertos == 6) {
                     new Audio("assets/Reto10_horasiesta_audiopirata.mp3").play();
                     setTimeout(function(){
                         fechaFin = getCompleteDate()
@@ -541,7 +541,7 @@
             function buildPathParams(){
                 return "?studentName="+studentName
                       +"&age="+age
-                      +"&level="+level
+                      +"&level="+2
                       +"&school="+school
                       +"&schedule="+schedule;
             }
