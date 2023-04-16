@@ -309,7 +309,12 @@
                 new Audio(sound).play();
             }
 
+            var played = false;
             function onCanvasClick(e){
+                if (!played) {
+                    new Audio("assets/Reto3_repararbrujula2.mp3").play();
+                    played = true;
+                }
                 manageClickOnSalero(e);
                 manageClickOnComidas(e)
             }
@@ -411,7 +416,7 @@
                     }, 2000);
                 }
                 if (cantidadErrores >= 6) {
-                    alert("PERDISTE, ENTRENA MAS!");
+                    new Audio("assets/Volvamos_a_intentarlo.mp3").play();
                     fechaFin = getCompleteDate();
                     sendAnalytics('TAREA', 'PERDIO', 'COGNADO');
                     setTimeout(function(){
@@ -425,7 +430,7 @@
                 const dataStudent = studentName + ',' + age + ',' + level + ',' + school + ',' + schedule
                 const dataSession = cantidadErrores + ',' + cantidadAciertos + ',' + fechaInicio + ',' + fechaFin
                 const dataMonedas = monedasGanadas
-                const dataPriming = taskOrTraining + ',' + cognadoOrParMinimo + ',' + cognadoSeleccionado.nombre  + ',' + wonOrLost
+                const dataPriming = taskOrTraining + ',' + cognadoOrParMinimo + ',' + parMinimoSeleccionadoParaCarne.nombre + ':' + parMinimoSeleccionadoParaPancakes.nombre + ':' + parMinimoSeleccionadoParaHuevo.nombre + ',' + wonOrLost
                 const dataVoice   = voiceGender;
                 const dataToSend  = dataStudent + ',' + dataSession + ',' + dataPriming  + ',' + dataMonedas + ',' + dataVoice
                 
