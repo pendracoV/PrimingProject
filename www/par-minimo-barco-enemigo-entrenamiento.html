@@ -181,7 +181,12 @@
                 dibujarPaisaje();
             }
 
+            var played = false;
             function onCanvasClick(e){
+                if (!played) {
+                    new Audio("assets/Reto3_barcoenemigo1.mp3").play();
+                    played = true;
+                }
                 if(clickOnBloqueador(e.clientX, e.clientY)) {
                     contadorClicksSobreBloqueador += 1;
                     playSound(cognadoElegidoParaEntrenar.sonidoCorrecto);
