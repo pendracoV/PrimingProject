@@ -58,6 +58,10 @@
     var school = "";
     var schedule = "";
 
+    // analiticas
+    var fechaInicio = '';
+    var fechaFin = '';
+
     var cognadoSeleccionado = null;
     var voiceGender = '';
     var cognados = []
@@ -280,13 +284,40 @@
                 clearCanvas();
             }, 3000);
 
-            if (clicksSobrePescado >= 5) {
+            if (clicksSobrePescado == 5) {
+                fechaFin = getCompleteDate();
+                sendAnalytics()
                 playSound(cognadoSeleccionado.sonidoCorrecto);
                 setTimeout(function(){
                     window.location.replace("cognado-camino-del-cocodrilo-tarea.html"+buildPathParams());
                 }, 2000);
             }
         }
+    }
+
+    function getCompleteDate(){
+        return new Date().toLocaleString().replace(",","").replace(" ","/")
+    }
+
+    function sendAnalytics(){
+        if(debugIsActive) { console.log("sendAnalytics()"); }
+        cantidadErrores = 0
+        cantidadAciertos = 0
+        const monedasGanadas = 0
+        const cognadoOrParMinimo = 'COGNADO' // PAR_MINIMO
+        const wonOrLost = 'NA'
+        const dataStudent = studentName + ',' + age + ',' + level + ',' + school + ',' + schedule
+        const dataSession = cantidadErrores + ',' + cantidadAciertos + ',' + fechaInicio + ',' + fechaFin
+        const dataMonedas = monedasGanadas
+        const dataPriming = 'ENTRENAMIENTO' + ',' + cognadoOrParMinimo + ',' + cognadoSeleccionado.nombre  + ',' + wonOrLost
+        const dataVoice   = voiceGender;
+        const dataToSend  = dataStudent + ',' + dataSession + ',' + dataPriming  + ',' + dataMonedas + ',' + dataVoice
+        
+        fetch('https://analytics-cfkskarc2a-uc.a.run.app/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 'concatenado': dataToSend })
+        });
     }
 
     function clickOnFish(clickX, clickY) {
@@ -355,6 +386,7 @@
 
     // --------------------------------------- //
     window.onload = function() {
+        fechaInicio = getCompleteDate()
         dibujarPaisaje();
         dibujarPez(pescado='assets/pez_nadando_derecha.png')
         dibujarCocodrilo();
