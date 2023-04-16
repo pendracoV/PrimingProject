@@ -383,7 +383,7 @@
 
                 manageIfWasClickOnBloqueador(e.clientX, e.clientY);
                 manageIfWasClickOnPirata(e.clientX, e.clientY);
-                if (cantidadAciertos >= 6) {
+                if (cantidadAciertos == 6) {
                     new Audio("assets/Reto5_aguacoco_audiopirata.mp3").play();
                     setTimeout(function(){
                         fechaFin = getCompleteDate()
