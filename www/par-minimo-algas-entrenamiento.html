@@ -180,8 +180,15 @@
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 dibujarPaisaje();
             }
-
+            var played = false;
             function onCanvasClick(e){
+                if (!played) {
+                    new Audio("assets/Reto9_algas1.mp3").play();
+                    played = true;
+                    setTimeout(function(){
+                        new Audio("assets/Reto9_algas2.mp3").play();
+                    }, 14000);
+                }
                 if(clickOnBloqueador(e.clientX, e.clientY)) {
                     contadorClicksSobreBloqueador += 1;
                     playSound(cognadoElegidoParaEntrenar.sonidoCorrecto);
