@@ -383,7 +383,7 @@
 
                 manageIfWasClickOnBloqueador(e.clientX, e.clientY);
                 manageIfWasClickOnPirata(e.clientX, e.clientY);
-                if (cantidadAciertos >= 6) {
+                if (cantidadAciertos == 6) {
                     new Audio("assets/Reto8_mundosombrilla_audiopirata.mp3").play();
                     setTimeout(function(){
                         fechaFin = getCompleteDate()
@@ -393,7 +393,7 @@
                         }, 2000);
                     }, 3000);
                 }
-                if (cantidadErrores >= 6) {
+                if (cantidadErrores == 6) {
                     new Audio("assets/Volvamos_a_intentarlo.mp3").play();
                     fechaFin = getCompleteDate();
                     sendAnalytics('TAREA', 'PERDIO', 'COGNADO');
