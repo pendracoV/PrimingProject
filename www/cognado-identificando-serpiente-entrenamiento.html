@@ -30,8 +30,34 @@
             var cantidadErrores = 0;
             var cantidadAciertos = 0;
             var cantidadIntentos = 0;
-            var fechaInicio = '';
-            var fechaFin = '';
+            // analiticas
+    var fechaInicio = '';
+    var fechaFin = '';
+
+    function getCompleteDate(){
+        return new Date().toLocaleString().replace(",","").replace(" ","/")
+    }
+
+    function sendAnalytics(){
+        if(debugIsActive) { console.log("sendAnalytics()"); }
+        cantidadErrores = 0
+        cantidadAciertos = 0
+        const monedasGanadas = 0
+        const cognadoOrParMinimo = 'COGNADO' // PAR_MINIMO
+        const wonOrLost = 'NA'
+        const dataStudent = studentName + ',' + age + ',' + level + ',' + school + ',' + schedule
+        const dataSession = cantidadErrores + ',' + cantidadAciertos + ',' + fechaInicio + ',' + fechaFin
+        const dataMonedas = monedasGanadas
+        const dataPriming = 'ENTRENAMIENTO' + ',' + cognadoOrParMinimo + ',' + cognadoSeleccionado.nombre  + ',' + wonOrLost
+        const dataVoice   = voiceGender;
+        const dataToSend  = dataStudent + ',' + dataSession + ',' + dataPriming  + ',' + dataMonedas + ',' + dataVoice
+        
+        fetch('https://analytics-cfkskarc2a-uc.a.run.app/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 'concatenado': dataToSend })
+        });
+    }
 
             var cognadoSeleccionado = null;
 
@@ -185,7 +211,9 @@
                     // playSound("assets/sonido_serpiente_venenosa.mp3")
                     playSound(cognadoSeleccionado.sonidoCorrecto)
                     clicksSobreSerpiente += 1;
-                    if (clicksSobreSerpiente >= 10) {
+                    if (clicksSobreSerpiente == 10) {
+                        fechaFin = getCompleteDate();
+                        sendAnalytics()
                         setTimeout(function(){
                             window.location.replace("cognado-identificando-serpiente-tarea.html"+buildPathParams());
                         }, 2000);
