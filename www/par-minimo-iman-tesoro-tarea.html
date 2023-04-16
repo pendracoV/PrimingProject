@@ -17,6 +17,7 @@
             const IMAGEN_HUEVO         = "assets/tesoro2.png"
             const IMAGEN_PANCAKE       = "assets/tesoro3.png";
             const NEXT_PAGE_ON_FAILED  = "par-minimo-reparar-escaleras-entrenamiento.html";
+            const NEXT_PAGE_ON_ENDING  = "home.html";
 
             const imagenSaleroDefault  = "assets/iman.png";
 
@@ -308,7 +309,12 @@
                 new Audio(sound).play();
             }
 
+            var played = false;
             function onCanvasClick(e){
+                if (!played) {
+                    new Audio("assets/Reto5_Rescatetesoro2.mp3").play();
+                    played = true;
+                }
                 manageClickOnSalero(e);
                 manageClickOnComidas(e)
             }
@@ -404,11 +410,14 @@
             function validarAciertosErrores() {
                 if (cantidadAciertos >= 6) {
                     fechaFin = getCompleteDate();
-                    sendAnalytics('TAREA', 'GANO', 'PARMINIMO');
-                    alert("FIN!!")
+                    new Audio("assets/Volvamos_a_intentarlo.mp3").play();
+                    setTimeout(function(){
+                        sendAnalytics('TAREA', 'GANO', 'PARMINIMO');
+                        window.location.replace(NEXT_PAGE_ON_ENDING);
+                    }, 7000);
                 }
                 if (cantidadErrores >= 6) {
-                    alert("PERDISTE, ENTRENA MAS!");
+                    new Audio("assets/Volvamos_a_intentarlo.mp3").play();
                     fechaFin = getCompleteDate();
                     sendAnalytics('TAREA', 'PERDIO', 'PARMINIMO');
                     setTimeout(function(){
@@ -422,7 +431,7 @@
                 const dataStudent = studentName + ',' + age + ',' + level + ',' + school + ',' + schedule
                 const dataSession = cantidadErrores + ',' + cantidadAciertos + ',' + fechaInicio + ',' + fechaFin
                 const dataMonedas = monedasGanadas
-                const dataPriming = taskOrTraining + ',' + cognadoOrParMinimo + ',' + cognadoSeleccionado.nombre  + ',' + wonOrLost
+                const dataPriming = taskOrTraining + ',' + cognadoOrParMinimo + ',' + parMinimoSeleccionadoParaCarne.nombre + ':' + parMinimoSeleccionadoParaHuevo.nombre + ':' + parMinimoSeleccionadoParaPancakes.nombre + ',' + wonOrLost
                 const dataVoice   = voiceGender;
                 const dataToSend  = dataStudent + ',' + dataSession + ',' + dataPriming  + ',' + dataMonedas + ',' + dataVoice
                 

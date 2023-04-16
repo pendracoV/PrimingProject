@@ -163,7 +163,12 @@
                 new Audio(sound).play();
             }
 
+            var played = false;
             function onCanvasClick(e){
+                if (!played) {
+                    new Audio("assets/Reto5_Rescatetesoro1.mp3").play();
+                    played = true;
+                }
                 if (clickOnMeat(e.clientX, e.clientY)) {
                     contadorClickOnCarne += 1;
                     playSound(parMinimoSeleccionadoParaCarne.sonidoCorrecto)
@@ -178,13 +183,12 @@
                 }
 
                 if (contadorClickOnCarne + contadorClickOnHuevo + contadorClickOnPancakes == 5) {
-                    alert("Ya casi estas listo!");
+                    new Audio("assets/sonidos-pirata/ya-casi-estas-listo.mp3").play();
                 }
 
                 if (contadorClickOnCarne >= 3 && contadorClickOnHuevo >= 3 && contadorClickOnPancakes >= 3) {
                     const params = buildPathParams()
                     console.log(params)
-                    alert("muy bien, preparemos la comida");
                     setTimeout(function(){
                         window.location.replace(NEXT_PAGE_ON_SUCCESS+params);
                     }, 2000);
