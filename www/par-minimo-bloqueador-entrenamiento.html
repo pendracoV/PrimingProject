@@ -41,12 +41,12 @@
                 + currentdate.getSeconds();
             }
 
-            function sendAnalytics(taskOrTraining='', wonOrLost='', cognadoOrParMinimo=''){
+            function sendAnalytics(){
                 if(debugIsActive) { console.log("sendAnalytics()"); }
                 const dataStudent = studentName + ',' + age + ',' + level + ',' + school + ',' + schedule
                 const dataSession = 0 + ',' + 0 + ',' + fechaInicio + ',' + fechaFin
                 const dataMonedas = 0
-                const dataPriming = taskOrTraining + ',' + 'PARMINIMO' + ',' + cognadoElegidoParaEntrenar.nombre  + ',' + 'NA'
+                const dataPriming = 'ENTRENAMIENTO' + ',' + 'PARMINIMO' + ',' + cognadoElegidoParaEntrenar.nombre  + ',' + 'NA'
                 const dataVoice   = voiceGender;
                 const dataToSend  = dataStudent + ',' + dataSession + ',' + dataPriming  + ',' + dataMonedas + ',' + dataVoice
                 
