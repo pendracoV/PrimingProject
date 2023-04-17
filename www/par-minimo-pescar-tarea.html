@@ -382,14 +382,14 @@
                 }
                 manageIfWasClickOnBloqueador(e.clientX, e.clientY);
                 manageIfWasClickOnPirata(e.clientX, e.clientY);
-                if (cantidadAciertos >= 6) {
+                if (cantidadAciertos == 6) {
                     fechaFin = getCompleteDate()
                     sendAnalytics('TAREA', 'GANO', 'PARMINIMO');
                     setTimeout(function(){
                         window.location.replace("par-minimo-pajaros-mensajeros-entrenamiento.html"+buildPathParams());
                     }, 2000);
                 }
-                if (cantidadErrores >= 6) {
+                if (cantidadErrores == 6) {
                     new Audio("assets/Volvamos_a_intentarlo.mp3").play();
                     fechaFin = getCompleteDate()
                     sendAnalytics('TAREA', 'PERDIO', 'PARMINIMO');

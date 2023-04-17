@@ -33,6 +33,32 @@
             var fechaInicio = '';
             var fechaFin = '';
 
+            function getCompleteDate(){
+                const currentdate = new Date();
+                return currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + "|"  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+            }
+
+            function sendAnalytics(){
+                if(debugIsActive) { console.log("sendAnalytics()"); }
+                const dataStudent = studentName + ',' + age + ',' + level + ',' + school + ',' + schedule
+                const dataSession = 0 + ',' + 0 + ',' + fechaInicio + ',' + fechaFin
+                const dataMonedas = 0
+                const dataPriming = 'ENTRENAMIENTO' + ',' + 'PARMINIMO' + ',' + cognadoElegidoParaEntrenar.nombre  + ',' + 'NA'
+                const dataVoice   = voiceGender;
+                const dataToSend  = dataStudent + ',' + dataSession + ',' + dataPriming  + ',' + dataMonedas + ',' + dataVoice
+                
+                fetch('https://analytics-cfkskarc2a-uc.a.run.app/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 'concatenado': dataToSend })
+                });
+            }
+
             // Globales
             var cognadoElegidoParaEntrenar = null;
             var contadorClicksSobreBloqueador = 0;
@@ -196,6 +222,8 @@
                         }, 1000);
                     }
                     if (contadorClicksSobreBloqueador == 10) {
+                        fechaFin = getCompleteDate();
+                        sendAnalytics()
                         setTimeout(function(){
                             playSound("assets/sonidos-pirata/muy-bien-protejamonos-del-sol.mp3");
                             setTimeout(function(){
@@ -236,7 +264,7 @@
             function buildPathParams(){
                 return "?studentName="+studentName
                       +"&age="+age
-                      +"&level="+level
+                      +"&level="+2
                       +"&school="+school
                       +"&schedule="+schedule
                       +"&cognadoId="+cognadoElegidoParaEntrenar.id
