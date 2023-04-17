@@ -408,7 +408,7 @@
             }
 
             function validarAciertosErrores() {
-                if (cantidadAciertos >= 6) {
+                if (cantidadAciertos == 6) {
                     fechaFin = getCompleteDate();
                     new Audio("assets/Volvamos_a_intentarlo.mp3").play();
                     setTimeout(function(){
@@ -416,7 +416,7 @@
                         window.location.replace(NEXT_PAGE_ON_ENDING);
                     }, 7000);
                 }
-                if (cantidadErrores >= 6) {
+                if (cantidadErrores == 6) {
                     new Audio("assets/Volvamos_a_intentarlo.mp3").play();
                     fechaFin = getCompleteDate();
                     sendAnalytics('TAREA', 'PERDIO', 'PARMINIMO');
