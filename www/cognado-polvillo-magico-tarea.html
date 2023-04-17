@@ -35,6 +35,31 @@
             var fechaInicio = '';
             var fechaFin = '';
 
+            function getCompleteDate(){
+                return new Date().toLocaleString().replace(",","").replace(" ","/")
+            }
+        
+            function sendAnalytics(){
+                if(debugIsActive) { console.log("sendAnalytics()"); }
+                cantidadErrores = 0
+                cantidadAciertos = 0
+                const monedasGanadas = 0
+                const cognadoOrParMinimo = 'COGNADO' // PAR_MINIMO
+                const wonOrLost = 'NA'
+                const dataStudent = studentName + ',' + age + ',' + level + ',' + school + ',' + schedule
+                const dataSession = cantidadErrores + ',' + cantidadAciertos + ',' + fechaInicio + ',' + fechaFin
+                const dataMonedas = monedasGanadas
+                const dataPriming = 'ENTRENAMIENTO' + ',' + cognadoOrParMinimo + ',' + parMinimoSeleccionadoParaCarne.nombre + ':' + parMinimoSeleccionadoParaPancakes.nombre  + ',' + wonOrLost
+                const dataVoice   = voiceGender;
+                const dataToSend  = dataStudent + ',' + dataSession + ',' + dataPriming  + ',' + dataMonedas + ',' + dataVoice
+                
+                fetch('https://analytics-cfkskarc2a-uc.a.run.app/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 'concatenado': dataToSend })
+                });
+            }
+
             var parMinimoSeleccionadoParaCarne = null;
             // var parMinimoSeleccionadoParaHuevo = null;
             var parMinimoSeleccionadoParaPancakes = null;
@@ -421,14 +446,14 @@
             }
 
             function validarAciertosErrores() {
-                if (cantidadAciertos >= 6) {
+                if (cantidadAciertos == 6) {
                     fechaFin = getCompleteDate();
                     sendAnalytics('TAREA', 'GANO', 'COGNADO');
                     setTimeout(function(){
                         window.location.replace("cognado-puertas-llave-entrenamiento.html"+buildPathParams());
                     }, 2000);
                 }
-                if (cantidadErrores >= 6) {
+                if (cantidadErrores == 6) {
                     new Audio("assets/Volvamos_a_intentarlo.mp3").play();
                     fechaFin = getCompleteDate();
                     sendAnalytics('TAREA', 'PERDIO', 'COGNADO');
