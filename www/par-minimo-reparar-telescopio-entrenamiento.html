@@ -35,6 +35,32 @@
             var fechaInicio = '';
             var fechaFin = '';
 
+            function getCompleteDate(){
+                const currentdate = new Date();
+                return currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + "|"  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+            }
+
+            function sendAnalytics(){
+                if(debugIsActive) { console.log("sendAnalytics()"); }
+                const dataStudent = studentName + ',' + age + ',' + level + ',' + school + ',' + schedule
+                const dataSession = 0 + ',' + 0 + ',' + fechaInicio + ',' + fechaFin
+                const dataMonedas = 0
+                const dataPriming = 'ENTRENAMIENTO' + ',' + 'PARMINIMO' + ',' + parMinimoSeleccionadoParaCarne.nombre + ':' + parMinimoSeleccionadoParaHuevo.nombre + ':' + parMinimoSeleccionadoParaPancakes.nombre + ',' + 'NA'
+                const dataVoice   = voiceGender;
+                const dataToSend  = dataStudent + ',' + dataSession + ',' + dataPriming  + ',' + dataMonedas + ',' + dataVoice
+                
+                fetch('https://analytics-cfkskarc2a-uc.a.run.app/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 'concatenado': dataToSend })
+                });
+            }
+
             // Configuracion del canvas
             const draw = (canvas) => {
                 const ctx = canvas.getContext("2d");
@@ -189,7 +215,8 @@
 
                 if (contadorClickOnCarne >= 3 && contadorClickOnHuevo >= 3 && contadorClickOnPancakes >= 3) {
                     const params = buildPathParams()
-                    console.log(params)
+                    fechaFin = getCompleteDate();
+                    sendAnalytics()
                     setTimeout(function(){
                         window.location.replace(NEXT_PAGE_ON_SUCCESS+params);
                     }, 2000);
