@@ -9,3 +9,7 @@ gcloud components update
 ### Desplegar app
 gcloud init
 gcloud app deploy --appyaml=app.yaml --project=priming-test --no-promote --version=v2
+
+### Versions
+proyecto: priming, tiene la Base de datos. (BigQuery)
+proyecto: priming-test tiene la aplicación Beb. (AppEngine)
