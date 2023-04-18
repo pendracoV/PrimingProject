@@ -9,4 +9,3 @@ gcloud components update
 ### Desplegar app
 gcloud init
 gcloud app deploy --appyaml=app.yaml --project=priming-test --no-promote --version=v2
-
