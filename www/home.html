@@ -145,11 +145,19 @@
                 dibujarPirata(pirata="assets/pirata-1.png")
             })
 
+            var played = false;
             canvas.addEventListener("click", () => {
-                playSound(sound='assets/intro_sound.mp3')
-                setTimeout(function(){
-                    playSound(sound='assets/voz_pirata.mp3')
-                }, 2000);
+                if (!played) {
+                    // Play intro sound
+                    playSound(sound='assets/intro_sound.mp3')
+                    setTimeout(function(){
+                        // Play pirate voice with instructions
+                        playSound(sound='assets/voz_pirata.mp3')
+                    }, 2000);
+                    played = true;
+                }
+
+                
                 setTimeout(function(){
                     window.location.replace("cognado-camino-del-cocodrilo-entrenamiento.html"+pathParams);
                 }, 29000);
