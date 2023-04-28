@@ -12,4 +12,4 @@ gcloud app deploy --appyaml=app.yaml --project=priming-test --no-promote --versi
 
 ### Versions
 proyecto: priming, tiene la Base de datos. (BigQuery)
-proyecto: priming-test tiene la aplicación Beb. (AppEngine)
+proyecto: priming-test tiene la aplicación web. (AppEngine)
